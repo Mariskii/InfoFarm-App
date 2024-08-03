@@ -1,0 +1,74 @@
+<div class="w-full h-full flex flex-col space-y-10 justify-center items-center bg-gray-100">
+
+  <div class="space-y-3 text-center">
+    <h2 class="text-3xl md:text-4xl font-bold">Registrate y crea tu negocio</h2>
+    <h3 class="text-gray-500 text-base">Introuduce tus datos para crear una cuenta</h3>
+  </div>
+
+  <form [formGroup]="registerUserForm!" (ngSubmit)="registerUserData()" class="w-full h-fit p-5 flex flex-col justify-around items-center space-y-7">
+    <p-floatLabel class="w-full">
+      <input
+        id="username"
+        formControlName="userName"
+        pInputText
+        class="h-[50px]"
+        [style]="{'width': '100%', 'padding':'10px'}"/>
+      <label for="username">Nombre de usuario</label>
+    </p-floatLabel>
+
+    <p-floatLabel class="w-full">
+      <input
+        id="email"
+        formControlName="email"
+        pInputText
+        class="h-[50px]"
+        [style]="{'width': '100%', 'padding':'10px'}"/>
+      <label for="email">Email</label>
+    </p-floatLabel>
+
+    <p-floatLabel class="w-full">
+      <p-password
+        formControlName="password"
+        [style]="{'height': '50px', 'width': '100%'}"
+        [inputStyle]="{'width': '100%', 'padding':'10px'}"
+        [toggleMask]="true"/>
+      <label for="passwd">Contraseña</label>
+    </p-floatLabel>
+
+    <p-floatLabel class="w-full">
+      <p-password
+      formControlName="repeatPassword"
+        [style]="{'height': '50px', 'width': '100%'}"
+        [inputStyle]="{'width': '100%', 'padding':'10px'}"
+        [toggleMask]="true"
+        [feedback]="false"/>
+      <label for="repeatPasswd">Repetir contraseña</label>
+    </p-floatLabel>
+
+    <div class="flex text-xs lg:text-base justify-between items-center w-full">
+
+      <p-checkbox
+        class="font-bold"
+        label="Recuerdame"
+        name="pizza"
+        value="Cheese" />
+
+    </div>
+
+    <p-fileUpload
+      customUpload="false"
+      mode="basic"
+      chooseLabel="Imagen de perfil"
+      chooseIcon="pi pi-upload"
+      accept="image/*"
+      maxFileSize="1000000"/>
+
+      <div class="flex flex-col items-center">
+        <button pButton type="submit" class="w-full justify-center bg-green-500 p-2 m-3 hover:bg-green-700 text-white font-bold rounded-3xl">Siguiente</button>
+
+        <p>Tienes una cuenta? <span class="underline font-bold text-green-500" routerLink="/user/login">Iniciar Sesión</span></p>
+      </div>
+
+  </form>
+
+</div>

@@ -1,0 +1,43 @@
+<div class="w-full h-full flex flex-col space-y-20 justify-center items-center bg-gray-100">
+
+  <div class="space-y-3 text-center">
+    <h2 class="text-3xl md:text-4xl font-bold">Bienvenido otra vez!</h2>
+    <h3 class="text-gray-500 text-base">Introuduce tus datos par iniciar sesión</h3>
+  </div>
+
+  <div class="w-full p-5 flex flex-col justify-around items-center h-40 space-y-7">
+    <p-floatLabel class="w-full">
+      <input pInputText class="h-[50px]" [style]="{'width': '100%', 'padding':'10px'}" id="username"/>
+      <label for="username">Nombre de usuario</label>
+    </p-floatLabel>
+
+    <p-floatLabel class="w-full">
+      <p-password
+        [style]="{'height': '50px', 'width': '100%'}"
+        [inputStyle]="{'width': '100%', 'padding':'10px'}"
+        [toggleMask]="true"
+        [feedback]="false"/>
+      <label for="username">Contraseña</label>
+    </p-floatLabel>
+
+    <div class="flex text-xs lg:text-base justify-between items-center w-full">
+
+      <p-checkbox
+        class="font-bold"
+        label="Recuerdame"
+        name="pizza"
+        value="Cheese" />
+
+      <a  class="underline font-bold text-gray-500" >No recuerdas tu contraseña?</a>
+
+    </div>
+
+  </div>
+
+  <div class="flex flex-col items-center">
+    <button pButton pRipple class="w-full justify-center bg-green-500 p-2 m-3 hover:bg-green-700 text-white font-bold rounded-3xl">Iniciar Sesión</button>
+
+    <p>No tienes una cuenta? <span class="underline font-bold text-green-500" routerLink="/user/register">Registrate</span></p>
+  </div>
+
+</div>

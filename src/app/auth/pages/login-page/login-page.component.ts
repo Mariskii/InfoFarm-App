@@ -1,10 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { PasswordModule } from 'primeng/password';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import { RouterModule } from '@angular/router';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AuthService } from '../../services/auth-service.service';
+import { LoginUser } from '../../interfaces/LoginUser';
+import { catchError, of } from 'rxjs';
 
 @Component({
   selector: 'app-login-page',
@@ -16,10 +20,45 @@ import { RouterModule } from '@angular/router';
     InputTextModule,
     ButtonModule,
     CheckboxModule,
+    ReactiveFormsModule,
   ],
   templateUrl: './login-page.component.html',
   styleUrl: './login-page.component.scss'
 })
 export class LoginPageComponent {
+
+  fb = inject(FormBuilder);
+  authService = inject(AuthService);
+
+  failedLogin:boolean = false;
+
+  formLogin = this.fb.group({
+      userName: ['',[Validators.required]],
+      password: ['',[Validators.required]],
+  });
+
+
+  login() {
+    if(this.formLogin.valid) {
+
+      const user: LoginUser = {
+        username: this.formLogin.get('userName')!.value!,
+        password: this.formLogin.get('password')!.value!,
+      }
+
+      this.authService.login(user).pipe(
+        catchError(error => {
+          this.failedLogin = true
+          return of(error);
+      })
+      )
+      .subscribe(res => {
+        console.log(res);
+      });
+    } else {
+      this.formLogin.get('userName')?.markAsDirty();
+      this.formLogin.get('password')?.markAsDirty();
+    }
+  }
 
 }

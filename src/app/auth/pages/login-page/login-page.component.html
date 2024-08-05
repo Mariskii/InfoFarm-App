@@ -5,14 +5,20 @@
     <h3 class="text-gray-500 text-base">Introuduce tus datos par iniciar sesión</h3>
   </div>
 
-  <div class="w-full p-5 flex flex-col justify-around items-center h-40 space-y-7">
+  <form [formGroup]="formLogin" (ngSubmit)="login()" class="w-full p-5 flex flex-col justify-around items-center h-40 space-y-7">
     <p-floatLabel class="w-full">
-      <input pInputText class="h-[50px]" [style]="{'width': '100%', 'padding':'10px'}" id="username"/>
+      <input
+        id="username"
+        formControlName="userName"
+        pInputText
+        class="h-[50px]"
+        [style]="{'width': '100%', 'padding':'10px'}"/>
       <label for="username">Nombre de usuario</label>
     </p-floatLabel>
 
     <p-floatLabel class="w-full">
       <p-password
+        formControlName="password"
         [style]="{'height': '50px', 'width': '100%'}"
         [inputStyle]="{'width': '100%', 'padding':'10px'}"
         [toggleMask]="true"
@@ -29,15 +35,17 @@
         value="Cheese" />
 
       <a  class="underline font-bold text-gray-500" >No recuerdas tu contraseña?</a>
-
     </div>
 
-  </div>
+    <div class="flex flex-col items-center">
 
-  <div class="flex flex-col items-center">
-    <button pButton pRipple class="w-full justify-center bg-green-500 p-2 m-3 hover:bg-green-700 text-white font-bold rounded-3xl">Iniciar Sesión</button>
+      @if (failedLogin) {
+        <p class="text-red-600	">No se ha podido iniciar sesión</p>
+      }
 
-    <p>No tienes una cuenta? <span class="underline font-bold text-green-500" routerLink="/user/register">Registrate</span></p>
-  </div>
+      <button type="submit" pButton pRipple class="w-full justify-center bg-green-500 p-2 m-3 hover:bg-green-700 text-white font-bold rounded-3xl">Iniciar Sesión</button>
+    </div>
+
+  </form>
 
 </div>

@@ -1,9 +1,0 @@
-
-@switch (formStep) {
-  @case(0) {
-    <app-user-register
-      [userRegister]="userInfo"
-      (nextStepRequest)="onNextStep($event)"/>
-  }
-  @case(1) {<app-bussines-register (previousStepRequest)="onPreviousStep()"/>}
-}

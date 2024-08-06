@@ -1,1 +1,35 @@
-<p>plantations-page works!</p>
+
+
+<div class="flex flex-col w-full h-full">
+
+  <div class="flex flex-col space-y-2 sm:flex-row w-full justify-between items-center mb-4">
+    <h2 class="font-bold text-5xl">Plantaciones</h2>
+    <button
+      pButton
+      class="text-white bg-green-500 p-2 hover:bg-green-700"
+      (click)="changeDialogVisibility()"
+      icon="pi pi-plus">Alta plantación</button>
+  </div>
+
+  @if (loading) {
+    <app-skelleton-squares/>
+  } @else {
+    @if(plantations?.length) {
+      <div class="h-full grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 overflow-y-auto">
+        @for (plantation of plantations; track $index) {
+          <app-plantation-card [plantation]="plantation"/>
+        }
+      </div>
+    } @else {
+      <div class="w-full h-full flex flex-col justify-center items-center text-center">
+        <img ngSrc="../../../../assets/no-content.png" priority width="200" height="200" alt="no-contetn">
+        <p class="font-bold text-zinc-500 text-4xl">Sin plantaciones registradas</p>
+        <p class="text-zinc-400">Para registrar una plantación usa el botón "Alta plantació"</p>
+      </div>
+    }
+  }
+</div>
+
+<app-creation-dialog title="Plantación">
+  <app-plantation-form (sendFormData)="createPlantation($event)"/>
+</app-creation-dialog>

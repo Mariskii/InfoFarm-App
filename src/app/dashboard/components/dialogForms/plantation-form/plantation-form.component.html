@@ -1,0 +1,36 @@
+<form [formGroup]="formPlantation" class="flex flex-col mt-7 space-y-7 h-[350px]">
+  <p-floatLabel class="w-full">
+    <input
+      id="plantationName"
+      formControlName="plantationName"
+      pInputText
+      class="h-[50px] bg-gray-200"
+      [style]="{'width': '100%', 'padding':'10px'}"/>
+    <label for="username">Nombre de la plantación*</label>
+  </p-floatLabel>
+
+  <p-floatLabel class="w-full">
+    <input
+      id="location"
+      formControlName="location"
+      pInputText
+      class="h-[50px] bg-gray-200"
+      [style]="{'width': '100%', 'padding':'10px'}"/>
+    <label for="username">Localización</label>
+  </p-floatLabel>
+
+  <p-floatLabel class="w-full">
+    <textarea
+      rows="5"
+      cols="35"
+      class="bg-gray-200"
+      pInputTextarea>
+    </textarea>
+    <label for="username">Descripción(opcional)</label>
+  </p-floatLabel>
+
+  <div class="flex justify-between">
+    <p-button>Cancelar</p-button>
+    <p-button (onClick)="createPlantation()">Crear</p-button>
+  </div>
+</form>

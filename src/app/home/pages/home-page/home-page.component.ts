@@ -13,7 +13,7 @@ import { RouterModule } from '@angular/router';
     InputTextModule,
     PaginatorModule,
     NgOptimizedImage,
-    RouterModule
+    RouterModule,
   ],
   templateUrl: './home-page.component.html',
 })

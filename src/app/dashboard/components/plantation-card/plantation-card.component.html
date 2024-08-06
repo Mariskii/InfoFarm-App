@@ -1,0 +1,24 @@
+<p-card
+  [header]="plantation?.plantationName"
+  styleClass="min-h-[250px]">
+
+
+  <p class="m-0">
+      {{ plantation?.description }}
+  </p>
+
+  <p><span class="font-bold">Localización:</span> {{ plantation?.location }}</p>
+
+  <div class="flex flex-row justify-between items-center">
+    <div class="space-x-2 items-center">
+      <button
+        pButton
+        class="bg-neutral-500 text-white p-1">Editar</button>
+        <p-button icon="pi pi-trash" [text]="true" />
+    </div>
+    <button
+      pButton
+      class="bg-green-500 text-white p-1">Ver más</button>
+  </div>
+
+</p-card>

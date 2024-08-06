@@ -4,7 +4,7 @@ import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth-service.service';
 import { LoginUser } from '../../interfaces/LoginUser';
@@ -29,6 +29,7 @@ export class LoginPageComponent {
 
   fb = inject(FormBuilder);
   authService = inject(AuthService);
+  router = inject(Router);
 
   failedLogin:boolean = false;
 
@@ -48,12 +49,19 @@ export class LoginPageComponent {
 
       this.authService.login(user).pipe(
         catchError(error => {
-          this.failedLogin = true
+          this.failedLogin = true;
           return of(error);
       })
       )
       .subscribe(res => {
-        console.log(res);
+        this.failedLogin = false;
+
+        if(res.status === 'success') {
+          localStorage.setItem('accessToken',res.accessToken);
+          this.router.navigate(['/dashboard']);
+        } else {
+          this.failedLogin = true;
+        }
       });
     } else {
       this.formLogin.get('userName')?.markAsDirty();

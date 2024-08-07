@@ -1,5 +1,5 @@
 <div class="flex flex-col h-full">
-  <app-nav-bar (toggleSideBarClicked)="toggleSideBar()"/>
+  <app-nav-bar appClickOutsideSidebar (clickOutside)="closeSideBar()" (toggleSideBarClicked)="toggleSideBar()"/>
   <app-side-bar class="h-full overflow-hidden">
     <router-outlet></router-outlet>
   </app-side-bar>

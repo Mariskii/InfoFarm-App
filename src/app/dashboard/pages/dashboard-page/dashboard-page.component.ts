@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { SideBarComponent } from '../../components/side-bar/side-bar.component';
 import { RouterModule } from '@angular/router';
 import { NavBarComponent } from '../../components/nav-bar/nav-bar.component';
+import { ClickOutsideSidebarDirective } from '../../directives/click-outside-sidebar.directive';
 
 @Component({
   selector: 'app-dashboard-page',
@@ -9,7 +10,8 @@ import { NavBarComponent } from '../../components/nav-bar/nav-bar.component';
   imports: [
     SideBarComponent,
     RouterModule,
-    NavBarComponent
+    NavBarComponent,
+    ClickOutsideSidebarDirective
   ],
   templateUrl: './dashboard-page.component.html',
   styleUrl: './dashboard-page.component.scss'
@@ -20,5 +22,9 @@ export class DashboardPageComponent {
 
   toggleSideBar() {
     this.sidebar.toggleSidebar()
+  }
+
+  closeSideBar() {
+    this.sidebar.closeSidebar()
   }
 }

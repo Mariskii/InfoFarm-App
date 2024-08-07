@@ -1,5 +1,8 @@
-<aside class="flex h-full">
-  <div id="sidebar" [ngClass]="{'expanded': isExpanded}" class="sidebar bg-green-500 text-white">
+<div class="flex h-full">
+  <aside
+    id="sidebar"
+    [ngClass]="{'expanded': isExpanded}"
+    class="sidebar bg-green-500 text-white">
 
     <div class="flex items-center">
       <img
@@ -21,8 +24,8 @@
         </a>
       }
     </nav>
-  </div>
+  </aside>
   <div id="content" [ngClass]="{'shifted': isExpanded}" class="w-full">
     <ng-content></ng-content>
   </div>
-</aside>
+</div>

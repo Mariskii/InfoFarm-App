@@ -25,6 +25,7 @@ export class PlantationCardComponent {
 
   @Input() plantation?:Plantation;
   @Output() onDelete = new EventEmitter<number>();
+  @Output() onEdit = new EventEmitter<void>();
 
   setConfirmation(event: Event) {
     this.confirmService.confirm({
@@ -35,5 +36,9 @@ export class PlantationCardComponent {
         this.onDelete.emit(this.plantation?.id);
       },
     });
+  }
+
+  setEditPlantation() {
+    this.onEdit.emit();
   }
 }

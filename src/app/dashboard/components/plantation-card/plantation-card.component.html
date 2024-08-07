@@ -1,5 +1,5 @@
 <p-card
-  [header]="plantation?.plantationName"
+  [header]="plantation?.name"
   styleClass="min-h-[250px]">
 
   <p class="m-0">
@@ -15,7 +15,10 @@
   <ng-template pTemplate="footer">
     <div class="flex justify-between">
       <div class="space-x-1 items-center">
-        <p-button icon="pi pi-file-edit" [text]="true" />
+        <p-button
+          (onClick)="setEditPlantation()"
+          icon="pi pi-file-edit"
+          [text]="true"/>
         <p-button
           (onClick)="setConfirmation($event)"
           icon="pi pi-trash"

@@ -23,4 +23,8 @@ export class PlantationService {
   deletePlantation(plantationId: number) {
     return this.httpClient.delete<void>(`${environment.API_URL}/plantation/delete-plantation/${plantationId}`);
   }
+
+  updatePlantation(plantation:Plantation) {
+    return this.httpClient.put<Plantation>(`${environment.API_URL}/plantation/edit-plantation`,plantation);
+  }
 }

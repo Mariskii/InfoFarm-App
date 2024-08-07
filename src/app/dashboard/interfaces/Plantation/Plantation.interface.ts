@@ -1,6 +1,6 @@
 export interface Plantation {
   id: number,
-  plantationName: string,
+  name: string,
   description: string,
   location: string
 }

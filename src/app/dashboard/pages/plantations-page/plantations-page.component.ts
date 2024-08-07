@@ -35,11 +35,15 @@ import { catchError, of } from 'rxjs';
 })
 export class PlantationsPageComponent implements OnInit {
 
+  dialogTitle: string = 'Crear plantación';
+
   plantationService = inject(PlantationService);
   messageService = inject(MessageService);
   plantations?: Plantation[];
+  plantationToEdit?: Plantation
 
-  @ViewChild(CreationDialogComponent) child!:CreationDialogComponent;
+  @ViewChild(CreationDialogComponent) dialog!:CreationDialogComponent;
+  @ViewChild(PlantationFormComponent) plantationForm!:PlantationFormComponent;
 
   loading:boolean = false;
 
@@ -56,17 +60,27 @@ export class PlantationsPageComponent implements OnInit {
     this.plantationService.createPlantation(plantationRequest).subscribe(plantation => {
       this.plantations?.push(plantation);
     });
-    this.changeDialogVisibility();
+    this.dialog.changeVisibility();
   }
 
-  changeDialogVisibility() {
-    this.child.changeVisibility();
+  showDialog(plantationPosition?: number) {
+
+    if(plantationPosition !== undefined){
+      this.dialogTitle = 'Editar plantación';
+      this.plantationToEdit = this.plantations![plantationPosition]
+    }
+    else {
+      this.dialogTitle = 'Crear plantación'
+      this.plantationForm.resetForm();
+    }
+
+    this.dialog.changeVisibility();
   }
 
   deletePlantation(idPlantation: number, index: number) {
     this.plantationService.deletePlantation(idPlantation).pipe(
       catchError(err => {
-        this.messageService.add({ severity: 'error', summary: 'failed', detail: 'No se ha podido borrado la granja', life: 2000 });
+        this.messageService.add({ severity: 'error', summary: 'failed', detail: 'No se ha podido borrar la granja', life: 2000 });
         //TODO: Acabar de implementar el catcherror
         return of();
       })
@@ -74,5 +88,24 @@ export class PlantationsPageComponent implements OnInit {
       this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: 'Se ha borrado la granja correctamente', life: 2000 });
       this.plantations?.splice(index,1);
     });
+  }
+
+  editPlantation(plantation: Plantation) {
+    this.plantationService.updatePlantation(plantation).pipe(
+      catchError(err => {
+        this.messageService.add({ severity: 'error', summary: 'failed', detail: 'No se ha podido editar la granja', life: 2000 });
+        return of()
+      })
+    ).subscribe(res => {
+      const index =this.plantations!.findIndex(plantation => plantation.id === res.id)
+      this.plantations![index] = res;
+      this.showToast('Se ha editado correctamente','success');
+    });
+
+    this.dialog.changeVisibility();
+  }
+
+  showToast(text: string, severity: string) {
+    this.messageService.add({ severity: severity, detail: text, life: 2000 });
   }
 }

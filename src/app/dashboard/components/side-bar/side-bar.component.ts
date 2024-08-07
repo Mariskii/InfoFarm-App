@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { Component } from '@angular/core';
 
 import { SidebarModule } from 'primeng/sidebar';
@@ -12,6 +12,7 @@ import { RouterModule } from '@angular/router';
     SidebarModule,
     CommonModule,
     RouterModule,
+    NgOptimizedImage,
   ],
   templateUrl: './side-bar.component.html',
   styleUrl: './side-bar.component.scss'

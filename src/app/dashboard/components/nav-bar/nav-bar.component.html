@@ -1,0 +1,19 @@
+<nav class="flex justify-between items-center text-white bg-slate-400 p-2">
+
+  <p-button
+    (onClick)="toggleSideBar()"
+    class="md:hidden"
+    icon="pi pi-bars"
+    [rounded]="true"/>
+
+  <div class="flex justify-around items-center space-x-2 bg-slate-600 rounded-lg p-2">
+    <p>Usuario</p>
+
+    <p-avatar
+      label="U"
+      styleClass="mr-2"
+      size="large"
+      [style]="{ 'background-color': '#ece9fc', color: '#2a1261' }"
+      shape="circle" />
+  </div>
+</nav>

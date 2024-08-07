@@ -1,8 +1,21 @@
-<aside class="flex w-full h-full">
+<aside class="flex h-full">
   <div id="sidebar" [ngClass]="{'expanded': isExpanded}" class="sidebar bg-green-500 text-white">
+
+    <div class="flex items-center">
+      <img
+        class="m-2"
+        ngSrc="https://images.vexels.com/content/135901/preview/farm-logo-0cb910.png"
+        alt="logo_empresa"
+        priority
+        width="50"
+        height="50">
+
+      <p>Empresa</p>
+    </div>
+
     <nav class="flex flex-col">
       @for (itemMenu of menuItems; track $index) {
-        <a class="hover:bg-green-700 m-2 p-2 rounded-xl" [routerLink]="itemMenu.route" routerLinkActive="['bg-green-800']" >
+        <a class="hover:bg-green-700 m-2 p-2 rounded-xl" [routerLink]="itemMenu.route" routerLinkActive="bg-green-800" >
           <i [class]="itemMenu.icon"></i>
           {{ itemMenu.title }}
         </a>

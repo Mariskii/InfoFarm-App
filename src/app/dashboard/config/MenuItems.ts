@@ -3,8 +3,14 @@ import { MenuItem } from "primeng/api";
 export const MENU_ITEMS: MenuItem[] = [
   {
     title: 'Plantaciones',
-    route: '/plantation',
+    route: '/dashboard/plantation',
     icon: 'pi pi-sun',
+    role: ['EMPLOYEE','BOSS']
+  },
+  {
+    title: 'Cultivos',
+    route: '/dashboard/crops',
+    icon: 'pi pi-warehouse',
     role: ['EMPLOYEE','BOSS']
   },
   {

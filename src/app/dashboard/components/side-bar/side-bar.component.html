@@ -1,10 +1,10 @@
 <aside class="flex w-full h-full">
   <div id="sidebar" [ngClass]="{'expanded': isExpanded}" class="sidebar bg-green-500 text-white">
     <nav class="flex flex-col">
-      @for (item of menuItems; track $index) {
-        <a class="hover:bg-green-700 m-2 p-2 rounded-xl" [routerLink]="[item.routerLink]" [routerLinkActive]="['bg-green-800']" >
-          <i [class]="item.icon"></i>
-          {{ item.title }}
+      @for (itemMenu of menuItems; track $index) {
+        <a class="hover:bg-green-700 m-2 p-2 rounded-xl" [routerLink]="itemMenu.route" routerLinkActive="['bg-green-800']" >
+          <i [class]="itemMenu.icon"></i>
+          {{ itemMenu.title }}
         </a>
       }
     </nav>

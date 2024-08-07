@@ -2,7 +2,6 @@
   [header]="plantation?.plantationName"
   styleClass="min-h-[250px]">
 
-
   <p class="m-0">
       {{ plantation?.description }}
   </p>
@@ -10,15 +9,19 @@
   <p><span class="font-bold">Localización:</span> {{ plantation?.location }}</p>
 
   <div class="flex flex-row justify-between items-center">
-    <div class="space-x-2 items-center">
+
+  </div>
+
+  <ng-template pTemplate="footer">
+    <div class="flex justify-between">
+      <div class="space-x-1 items-center">
+        <p-button icon="pi pi-file-edit" [text]="true" />
+        <p-button icon="pi pi-trash" [text]="true" />
+      </div>
       <button
         pButton
-        class="bg-neutral-500 text-white p-1">Editar</button>
-        <p-button icon="pi pi-trash" [text]="true" />
+        class="bg-green-500 text-white p-1">Ver más</button>
     </div>
-    <button
-      pButton
-      class="bg-green-500 text-white p-1">Ver más</button>
-  </div>
+  </ng-template>
 
 </p-card>

@@ -16,7 +16,10 @@
     <div class="flex justify-between">
       <div class="space-x-1 items-center">
         <p-button icon="pi pi-file-edit" [text]="true" />
-        <p-button icon="pi pi-trash" [text]="true" />
+        <p-button
+          (onClick)="setConfirmation($event)"
+          icon="pi pi-trash"
+          [text]="true"/>
       </div>
       <button
         pButton
@@ -25,3 +28,5 @@
   </ng-template>
 
 </p-card>
+
+<p-confirmPopup />

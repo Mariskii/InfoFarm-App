@@ -17,7 +17,9 @@
     @if(plantations?.length) {
       <div class="h-full grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 overflow-y-auto">
         @for (plantation of plantations; track $index) {
-          <app-plantation-card [plantation]="plantation"/>
+          <app-plantation-card
+            (onDelete)="deletePlantation($event, $index)"
+            [plantation]="plantation"/>
         }
       </div>
     } @else {
@@ -29,6 +31,8 @@
     }
   }
 </div>
+
+<p-toast/>
 
 <app-creation-dialog title="Plantación">
   <app-plantation-form (sendFormData)="createPlantation($event)"/>

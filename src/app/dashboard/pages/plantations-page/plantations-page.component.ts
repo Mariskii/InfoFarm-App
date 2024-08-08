@@ -50,6 +50,7 @@ export class PlantationsPageComponent implements OnInit {
   ngOnInit(): void {
     this.loading = true;
 
+    //TODO: Implementar catchError
     this.plantationService.getAllPlantations().subscribe(res => {
       this.plantations = res.content;
       this.loading = false;

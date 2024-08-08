@@ -1,1 +1,36 @@
-<p>crops-page works!</p>
+
+
+<div class="flex flex-col w-full h-full">
+
+  <div class="flex flex-col space-y-2 sm:flex-row w-full justify-between items-center mb-4">
+    <h2 class="font-bold text-5xl">Cultivos</h2>
+    <button
+      pButton
+      class="text-white bg-green-500 p-2 hover:bg-green-700"
+      icon="pi pi-plus">Alta cultivo</button>
+  </div>
+
+  @if (loading) {
+    <app-skelleton-squares/>
+  } @else {
+    @if(crops.length > 0) {
+      <div class="h-full grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 overflow-y-auto">
+        @for (crop of crops; track $index) {
+
+        }
+      </div>
+    } @else {
+      <div class="w-full h-full flex flex-col justify-center items-center text-center">
+        <img ngSrc="../../../../assets/no-content.png" priority width="200" height="200" alt="no-contetn">
+        <p class="font-bold text-zinc-500 text-4xl">Sin cultivos registrados</p>
+        <p class="text-zinc-400">Para registrar un cultivo usa el botón "Alta cultivo"</p>
+      </div>
+    }
+  }
+</div>
+
+<p-toast/>
+
+<app-creation-dialog title="Cultivo">
+
+</app-creation-dialog>

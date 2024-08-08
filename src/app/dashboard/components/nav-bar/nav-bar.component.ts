@@ -1,3 +1,4 @@
+import { NgOptimizedImage } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { AvatarModule } from 'primeng/avatar';
 import { AvatarGroupModule } from 'primeng/avatargroup';
@@ -8,6 +9,7 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
   selector: 'app-nav-bar',
   standalone: true,
   imports: [
+    NgOptimizedImage,
     AvatarModule,
     AvatarGroupModule,
     ButtonModule,

@@ -17,7 +17,9 @@
     @if(crops.length > 0) {
       <div class="h-full grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 overflow-y-auto">
         @for (crop of crops; track $index) {
-          <app-crop-card [crop]="crop"/>
+          <app-crop-card
+            [crop]="crop"
+            (onEdit)="showDialog($index)"/>
         }
       </div>
     } @else {
@@ -32,8 +34,9 @@
 
 <p-toast/>
 
-<app-creation-dialog title="Cultivo">
+<app-creation-dialog [title]="dialogTitle">
   <app-crop-form
     [cropToEdit]="cropToEdit"
-    (sendCreateData)="createPlantation($event)"/>
+    (sendCreateData)="createCrop($event)"
+    (sendEditData)="editCrop($event)"/>
 </app-creation-dialog>

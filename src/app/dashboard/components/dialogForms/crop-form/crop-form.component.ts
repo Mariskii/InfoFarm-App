@@ -5,6 +5,7 @@ import { FloatLabelModule } from 'primeng/floatlabel';
 import { Crop } from '../../../interfaces/Crop/Crop.interface';
 import { FileUploadModule } from 'primeng/fileupload';
 import { CreateCrop } from '../../../interfaces/Crop/CreateCrop.interface';
+import { UpdateCrop } from '../../../interfaces/Crop/UpdateCrop.interface';
 
 @Component({
   selector: 'app-crop-form',
@@ -25,7 +26,7 @@ export class CropFormComponent {
   @Input() cropToEdit?: Crop;
 
   @Output() sendCreateData = new EventEmitter<CreateCrop>();
-  //@Output() sendEditData = new EventEmitter<Plantation>();
+  @Output() sendEditData = new EventEmitter<UpdateCrop>();
 
   fb = inject(FormBuilder);
 
@@ -56,6 +57,7 @@ export class CropFormComponent {
 
   completeCrop() {
     if(this.formCrop.valid) {
+
       if(!this.cropToEdit) {
         const newCrop: CreateCrop = {
           crop: {
@@ -67,13 +69,28 @@ export class CropFormComponent {
 
         this.sendCreateData.emit(newCrop);
       } else {
+        const updateCrop: UpdateCrop = {
+          crop:{
+            id: this.cropToEdit.id,
+            cropName: this.formCrop.get('cropName')!.value!,
+            cropDescription: this.formCrop.get('description')!.value!,
+            cropImage: this.cropToEdit.cropImage
+          },
+          cropImage: this.cropImage
+        }
 
+        this.cropToEdit = undefined;
+
+        this.sendEditData.emit(updateCrop);
       }
+
+      this.clearUpload();
     }
   }
 
   resetForm() {
     this.formCrop.reset();
+    this.clearUpload();
   }
 
 }

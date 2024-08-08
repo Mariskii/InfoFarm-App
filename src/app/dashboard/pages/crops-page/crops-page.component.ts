@@ -14,6 +14,7 @@ import { CropFormComponent } from "../../components/dialogForms/crop-form/crop-f
 import { CreateCrop } from '../../interfaces/Crop/CreateCrop.interface';
 import { ToastUtils } from '../../utils/ToastUtil';
 import { CropCardComponent } from '../../components/cards/crop-card/crop-card.component';
+import { UpdateCrop } from '../../interfaces/Crop/UpdateCrop.interface';
 
 @Component({
   selector: 'app-crops-page',
@@ -62,7 +63,7 @@ export class CropsPageComponent implements OnInit {
   showDialog(cropPosition?: number) {
 
     if(cropPosition !== undefined){
-      this.dialogTitle = 'Editar plantación';
+      this.dialogTitle = 'Editar cultivo';
       this.cropToEdit = this.crops![cropPosition]
     }
     else {
@@ -73,16 +74,31 @@ export class CropsPageComponent implements OnInit {
     this.dialog.changeVisibility();
   }
 
-  createPlantation(crop: CreateCrop) {
+  createCrop(crop: CreateCrop) {
     this.cropService.createCrop(crop).pipe(
       catchError(err => {
         ToastUtils.showToast(this.messageService,'No se ha podido crear el cultivo','error');
         return of()
       })
     ).subscribe(response => {
-      ToastUtils.showToast(this.messageService,'No se ha podido crear el cultivo','success');
+      ToastUtils.showToast(this.messageService,'El cultivo ha sido creado','success');
       this.crops.push(response);
     });
+    this.dialog.changeVisibility();
+  }
+
+  editCrop(crop: UpdateCrop) {
+    this.cropService.updateCrop(crop).pipe(
+      catchError(err => {
+        ToastUtils.showToast(this.messageService,'No se ha podido editar el cultivo','error');
+        return of();
+      })
+    ).subscribe(resp => {
+      ToastUtils.showToast(this.messageService,'El cultivo ha sido actualizado','success');
+      const cropPosition = this.crops.findIndex(crop => crop.id === resp.id);
+      this.crops[cropPosition] = resp;
+    });
+
     this.dialog.changeVisibility();
   }
 }

@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { SideBarComponent } from '../../components/side-bar/side-bar.component';
 import { RouterModule } from '@angular/router';
 import { NavBarComponent } from '../../components/nav-bar/nav-bar.component';
-import { ClickOutsideSidebarDirective } from '../../directives/click-outside-sidebar.directive';
+import { ClickOutsideSidebarDirective } from '../../directives/clickOutisde/click-outside-sidebar.directive';
 
 @Component({
   selector: 'app-dashboard-page',

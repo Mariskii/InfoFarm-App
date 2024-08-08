@@ -1,0 +1,44 @@
+<form [formGroup]="formCrop" class="h-fit flex flex-col mt-7 space-y-7">
+  <p-floatLabel class="w-full">
+    <input
+      id="cropName"
+      formControlName="cropName"
+      pInputText
+      class="h-[50px] bg-gray-200"
+      [style]="{'width': '100%', 'padding':'10px'}"/>
+    <label for="username">Nombre del cultivo*</label>
+  </p-floatLabel>
+
+  <p-floatLabel class="w-full">
+    <textarea
+      formControlName="description"
+      rows="5"
+      cols="35"
+      class="bg-gray-200"
+      pInputTextarea>
+    </textarea>
+    <label for="username">Descripción(opcional)</label>
+  </p-floatLabel>
+
+  <div class="flex flex-col items-center space-y-1">
+    <p-fileUpload
+    #fileUpload
+    styleClass="bg-green-500"
+    mode="basic"
+    chooseLabel="Imagen del cultivo"
+    chooseIcon="pi pi-upload"
+    [customUpload]="true"
+    accept="image/*"
+    maxFileSize="1000000"
+    (onSelect)="onSelect($event)"/>
+
+    @if (cropImage) {
+      <p-button (onClick)="clearUpload()">Eliminar imagen</p-button>
+    }
+  </div>
+
+  <div class="flex justify-between">
+    <p-button>Cancelar</p-button>
+    <p-button (onClick)="completeCrop()">Aceptar</p-button>
+  </div>
+</form>

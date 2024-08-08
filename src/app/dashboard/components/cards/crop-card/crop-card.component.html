@@ -1,0 +1,26 @@
+<p-card
+  styleClass="w-full h-[450px]"
+  [header]="crop.cropName">
+
+  <img
+    appNotImage
+    class="w-full h-[250px]"
+    alt="cropImage"
+    [ngSrc]="crop.imageURL || '../../../../../assets/no-image.png'"
+    priority="lazy"
+    width="200"
+    height="50"/>
+
+  <ng-template pTemplate="footer">
+    <div class="flex justify-between">
+      <div class="space-x-1 items-center">
+        <p-button
+          icon="pi pi-file-edit"
+          [text]="true"/>
+        <p-button
+          icon="pi pi-trash"
+          [text]="true"/>
+      </div>
+    </div>
+</ng-template>
+</p-card>

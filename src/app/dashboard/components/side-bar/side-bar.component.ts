@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
 import { SidebarModule } from 'primeng/sidebar';
 import { MENU_ITEMS } from '../../config/MenuItems';
 import { RouterModule } from '@angular/router';
-import { ClickOutsideSidebarDirective } from '../../directives/click-outside-sidebar.directive';
+import { ClickOutsideSidebarDirective } from '../../directives/clickOutisde/click-outside-sidebar.directive';
 import { NavBarComponent } from '../nav-bar/nav-bar.component';
 
 @Component({

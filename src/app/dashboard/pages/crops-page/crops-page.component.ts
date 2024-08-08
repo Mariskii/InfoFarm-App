@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { SkelletonSquaresComponent } from '../../components/skelleton-squares/skelleton-squares.component';
 import { CreationDialogComponent } from '../../components/creation-dialog/creation-dialog.component';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -9,6 +9,11 @@ import { ButtonModule } from 'primeng/button';
 import { NgOptimizedImage } from '@angular/common';
 import { CropService } from '../../services/Crop/crop.service';
 import { catchError, of } from 'rxjs';
+import { PlantationFormComponent } from '../../components/dialogForms/plantation-form/plantation-form.component';
+import { CropFormComponent } from "../../components/dialogForms/crop-form/crop-form.component";
+import { CreateCrop } from '../../interfaces/Crop/CreateCrop.interface';
+import { ToastUtils } from '../../utils/ToastUtil';
+import { CropCardComponent } from '../../components/cards/crop-card/crop-card.component';
 
 @Component({
   selector: 'app-crops-page',
@@ -20,7 +25,10 @@ import { catchError, of } from 'rxjs';
     CreationDialogComponent,
     ConfirmPopupModule,
     ToastModule,
-  ],
+    PlantationFormComponent,
+    CropFormComponent,
+    CropCardComponent,
+],
   providers:[
     ConfirmationService,
     MessageService,
@@ -31,9 +39,14 @@ import { catchError, of } from 'rxjs';
 export class CropsPageComponent implements OnInit {
 
   cropService = inject(CropService);
+  messageService = inject(MessageService);
 
   loading: boolean = false;
   crops: Crop[] = [];
+  cropToEdit?: Crop;
+  dialogTitle: string='Crear cultivo';
+
+  @ViewChild(CreationDialogComponent) dialog!:CreationDialogComponent;
 
   //TODO: Implementar toast para cuando hay un error
   ngOnInit(): void {
@@ -43,5 +56,32 @@ export class CropsPageComponent implements OnInit {
           return of()
       })
     ).subscribe(res => this.crops = res.content);
+  }
+
+  showDialog(cropPosition?: number) {
+
+    if(cropPosition !== undefined){
+      this.dialogTitle = 'Editar plantación';
+      this.cropToEdit = this.crops![cropPosition]
+    }
+    else {
+      this.dialogTitle = 'Crear cultivo'
+      //this.plantationForm.resetForm();
+    }
+
+    this.dialog.changeVisibility();
+  }
+
+  createPlantation(crop: CreateCrop) {
+    this.cropService.createCrop(crop).pipe(
+      catchError(err => {
+        ToastUtils.showToast(this.messageService,'No se ha podido crear el cultivo','error');
+        return of()
+      })
+    ).subscribe(response => {
+      ToastUtils.showToast(this.messageService,'No se ha podido crear el cultivo','success');
+      this.crops.push(response);
+    });
+    this.dialog.changeVisibility();
   }
 }

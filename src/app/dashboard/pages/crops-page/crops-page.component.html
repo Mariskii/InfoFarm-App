@@ -6,6 +6,7 @@
     <h2 class="font-bold text-5xl">Cultivos</h2>
     <button
       pButton
+      (click)="showDialog()"
       class="text-white bg-green-500 p-2 hover:bg-green-700"
       icon="pi pi-plus">Alta cultivo</button>
   </div>
@@ -16,7 +17,7 @@
     @if(crops.length > 0) {
       <div class="h-full grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 overflow-y-auto">
         @for (crop of crops; track $index) {
-
+          <app-crop-card [crop]="crop"/>
         }
       </div>
     } @else {
@@ -32,5 +33,7 @@
 <p-toast/>
 
 <app-creation-dialog title="Cultivo">
-
+  <app-crop-form
+    [cropToEdit]="cropToEdit"
+    (sendCreateData)="createPlantation($event)"/>
 </app-creation-dialog>

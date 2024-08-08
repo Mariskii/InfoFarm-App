@@ -47,6 +47,7 @@ export class CropsPageComponent implements OnInit {
   dialogTitle: string='Crear cultivo';
 
   @ViewChild(CreationDialogComponent) dialog!:CreationDialogComponent;
+  @ViewChild(CropFormComponent) cropForm!:CropFormComponent;
 
   //TODO: Implementar toast para cuando hay un error
   ngOnInit(): void {
@@ -66,7 +67,7 @@ export class CropsPageComponent implements OnInit {
     }
     else {
       this.dialogTitle = 'Crear cultivo'
-      //this.plantationForm.resetForm();
+      this.cropForm.resetForm();
     }
 
     this.dialog.changeVisibility();

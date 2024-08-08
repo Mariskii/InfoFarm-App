@@ -72,4 +72,8 @@ export class CropFormComponent {
     }
   }
 
+  resetForm() {
+    this.formCrop.reset();
+  }
+
 }

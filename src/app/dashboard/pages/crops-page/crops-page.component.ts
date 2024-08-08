@@ -101,4 +101,16 @@ export class CropsPageComponent implements OnInit {
 
     this.dialog.changeVisibility();
   }
+
+  deleteCrop(id: number, index: number) {
+    this.cropService.deleteCrop(id).pipe(
+      catchError(err => {
+        ToastUtils.showToast(this.messageService,'No se ha podido borrar el cultivo','error');
+        return of()
+      })
+    ).subscribe(() => {
+      ToastUtils.showToast(this.messageService,'El cultivo ha sido borrado','success');
+      this.crops?.splice(index,1);
+    });
+  }
 }

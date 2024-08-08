@@ -40,4 +40,8 @@ export class CropService {
 
     return this.httpClient.put<Crop>(`${environment.API_URL}/crop/update-crop`, formData);
   }
+
+  deleteCrop(idCrop: number) {
+    return this.httpClient.delete<void>(`${environment.API_URL}/crop/delete-crop/${idCrop}`);
+  }
 }

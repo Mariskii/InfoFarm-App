@@ -4,6 +4,7 @@ import { Crop } from '../../../interfaces/Crop/Crop.interface';
 import { NgOptimizedImage } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { ConfirmationService } from 'primeng/api';
+import { ConfirmPopupModule } from 'primeng/confirmpopup';
 
 @Component({
   selector: 'app-crop-card',
@@ -12,6 +13,7 @@ import { ConfirmationService } from 'primeng/api';
     CardModule,
     NgOptimizedImage,
     ButtonModule,
+    ConfirmPopupModule
   ],
   templateUrl: './crop-card.component.html',
   styleUrl: './crop-card.component.scss'
@@ -30,7 +32,7 @@ export class CropCardComponent {
       message: '¿Seguro que quieres borrar el cultivo?',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        //this.onDelete.emit(this.plantation?.id);
+        this.onDelete.emit(this.crop?.id);
       },
     });
   }

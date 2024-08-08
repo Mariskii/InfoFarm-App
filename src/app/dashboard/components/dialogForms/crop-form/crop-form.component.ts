@@ -6,6 +6,8 @@ import { Crop } from '../../../interfaces/Crop/Crop.interface';
 import { FileUploadModule } from 'primeng/fileupload';
 import { CreateCrop } from '../../../interfaces/Crop/CreateCrop.interface';
 import { UpdateCrop } from '../../../interfaces/Crop/UpdateCrop.interface';
+import { InputTextModule } from 'primeng/inputtext';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 
 @Component({
   selector: 'app-crop-form',
@@ -14,7 +16,9 @@ import { UpdateCrop } from '../../../interfaces/Crop/UpdateCrop.interface';
     ButtonModule,
     FloatLabelModule,
     ReactiveFormsModule,
-    FileUploadModule
+    FileUploadModule,
+    InputTextModule,
+    InputTextareaModule,
   ],
   templateUrl: './crop-form.component.html',
   styleUrl: './crop-form.component.scss'
@@ -68,7 +72,7 @@ export class CropFormComponent {
         }
 
         this.sendCreateData.emit(newCrop);
-      } else {
+      } else if(this.formCrop.dirty) {
         const updateCrop: UpdateCrop = {
           crop:{
             id: this.cropToEdit.id,
@@ -79,9 +83,9 @@ export class CropFormComponent {
           cropImage: this.cropImage
         }
 
-        this.cropToEdit = undefined;
-
         this.sendEditData.emit(updateCrop);
+
+        this.cropToEdit = undefined;
       }
 
       this.clearUpload();

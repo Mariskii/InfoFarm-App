@@ -19,7 +19,8 @@
         @for (crop of crops; track $index) {
           <app-crop-card
             [crop]="crop"
-            (onEdit)="showDialog($index)"/>
+            (onEdit)="showDialog($index)"
+            (onDelete)="deleteCrop($event ,$index)"/>
         }
       </div>
     } @else {

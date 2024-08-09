@@ -5,6 +5,7 @@ import { ButtonModule } from 'primeng/button';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { Plantation } from '../../../interfaces/Plantation/Plantation.interface';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-plantation-card',
@@ -12,7 +13,8 @@ import { Plantation } from '../../../interfaces/Plantation/Plantation.interface'
   imports: [
     CardModule,
     ButtonModule,
-    ConfirmPopupModule
+    ConfirmPopupModule,
+    RouterModule,
   ],
   providers:[
     ConfirmationService,

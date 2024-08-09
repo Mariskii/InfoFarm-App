@@ -1,0 +1,54 @@
+<div class="flex justify-between items-center m-3">
+  <h2 class="text-4xl ">{{ plantation?.name }}</h2>
+  <p class="text-xl">Localización: {{ plantation?.location }}</p>
+</div>
+
+<p>{{ plantation?.description }}</p>
+
+@if (plantation) {
+  <p-table
+    [value]="plantation!.cropData.content"
+    scrollHeight="flex"
+    styleClass="p-datatable-striped h-[70%] sm:h-4/5"
+    [loading]="loading"
+    [scrollable]="true"
+    [scrollDirection]="'both'">
+    <ng-template pTemplate="caption">
+        <div class="flex align-items-center justify-content-between">
+            Cultivos de la plantación
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Imagen</th>
+            <th>Nombre</th>
+            <th>Coste</th>
+            <th>Precio/kg</th>
+            <th>Kilos</th>
+            <th>Fecha de plantación</th>
+            <th>Fecha de recolección</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" class=" overflow-auto" let-cropData>
+        <tr>
+            <td><img [ngSrc]="cropData.crop.cropImage || '../../../../assets/no-image.png'" [alt]="cropData.crop.cropName" width="100" height="100" priority class="shadow-4" /></td>
+            <td>{{cropData.crop.cropName}}</td>
+            <td>{{cropData.cost}}</td>
+            <td>{{cropData.kilo_price}} €/Kg</td>
+            <td>{{cropData.kilos}}</td>
+            <td>{{ cropData.plantating_date || 'Sin fecha' }}</td>
+            <td>{{ cropData.ollection_date || 'Sin fecha' }}</td>
+        </tr>
+    </ng-template>
+  </p-table>
+
+  <p-paginator
+      class="inset-x-0 bottom-0"
+      (onPageChange)="onPageChange($event)"
+      [first]="1"
+      [rows]="10"
+      [totalRecords]="plantation.cropData.totalElements"
+      [showFirstLastIcon]="false"/>
+}
+
+<p-toast/>

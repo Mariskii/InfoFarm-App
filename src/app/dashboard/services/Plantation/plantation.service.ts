@@ -4,6 +4,7 @@ import { environment } from '../../../../environments/environment.development';
 import { PlantationResponse } from '../../interfaces/Plantation/PlantationsResponse.interface';
 import { Plantation } from '../../interfaces/Plantation/Plantation.interface';
 import { PlantationRequest } from '../../interfaces/Plantation/PlantationRequest.interface';
+import { FullPlantation } from '../../interfaces/Plantation/FullPlantation.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,11 @@ export class PlantationService {
   constructor(private httpClient: HttpClient) { }
 
   getAllPlantations() {
-    return this.httpClient.get<PlantationResponse>(`${environment.API_URL}/plantation/get-all-plantations`)
+    return this.httpClient.get<PlantationResponse>(`${environment.API_URL}/plantation/get-all-plantations`);
+  }
+
+  getPlantationById(idPlantation: number) {
+    return this.httpClient.get<FullPlantation>(`${environment.API_URL}/plantation/get-plantation/${idPlantation}`);
   }
 
   createPlantation(plantation: PlantationRequest) {

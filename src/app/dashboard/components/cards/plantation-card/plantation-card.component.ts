@@ -1,9 +1,10 @@
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { CardModule } from 'primeng/card';
-import { Plantation } from '../../interfaces/Plantation/Plantation.interface';
+
 import { ButtonModule } from 'primeng/button';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
+import { Plantation } from '../../../interfaces/Plantation/Plantation.interface';
 
 @Component({
   selector: 'app-plantation-card',

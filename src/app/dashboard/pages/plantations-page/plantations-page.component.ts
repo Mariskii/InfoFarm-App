@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
-import { PlantationCardComponent } from "../../components/plantation-card/plantation-card.component";
+
 import { PlantationService } from '../../services/Plantation/plantation.service';
 import { NgOptimizedImage } from '@angular/common';
 import { SkelletonSquaresComponent } from '../../components/skelleton-squares/skelleton-squares.component';
@@ -13,6 +13,7 @@ import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { ToastModule } from 'primeng/toast';
 import { catchError, of } from 'rxjs';
 import { ToastUtils } from '../../utils/ToastUtil';
+import { PlantationCardComponent } from '../../components/cards/plantation-card/plantation-card.component';
 
 @Component({
   selector: 'app-plantations-page',

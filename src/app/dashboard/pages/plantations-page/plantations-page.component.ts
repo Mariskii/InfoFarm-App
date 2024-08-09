@@ -12,6 +12,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { ToastModule } from 'primeng/toast';
 import { catchError, of } from 'rxjs';
+import { ToastUtils } from '../../utils/ToastUtil';
 
 @Component({
   selector: 'app-plantations-page',
@@ -94,19 +95,15 @@ export class PlantationsPageComponent implements OnInit {
   editPlantation(plantation: Plantation) {
     this.plantationService.updatePlantation(plantation).pipe(
       catchError(err => {
-        this.messageService.add({ severity: 'error', summary: 'failed', detail: 'No se ha podido editar la granja', life: 2000 });
+        ToastUtils.showToast(this.messageService,'No se ha podido editar la plantación','error');
         return of()
       })
     ).subscribe(res => {
       const index =this.plantations!.findIndex(plantation => plantation.id === res.id)
       this.plantations![index] = res;
-      this.showToast('Se ha editado correctamente','success');
+      ToastUtils.showToast(this.messageService,'Se ha editado plantación','success');
     });
 
     this.dialog.changeVisibility();
-  }
-
-  showToast(text: string, severity: string) {
-    this.messageService.add({ severity: severity, detail: text, life: 2000 });
   }
 }

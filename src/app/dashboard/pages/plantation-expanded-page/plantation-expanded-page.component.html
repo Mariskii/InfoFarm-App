@@ -14,10 +14,17 @@
     [scrollable]="true"
     [scrollDirection]="'both'">
     <ng-template pTemplate="caption">
-        <div class="flex align-items-center justify-content-between">
-            Cultivos de la plantación
+        <div class="flex w-full items-center justify-between">
+            <p>Cultivos de la plantación: {{ plantation.cropData.content.length }}</p>
+
+            <button
+              pButton
+              (click)="dialog.changeVisibility()"
+              class="text-white bg-green-500 p-2 hover:bg-green-700"
+              icon="pi pi-plus">Añadir cultivo</button>
         </div>
     </ng-template>
+
     <ng-template pTemplate="header">
         <tr>
             <th>Imagen</th>
@@ -52,3 +59,7 @@
 }
 
 <p-toast/>
+
+<app-creation-dialog [title]="'Datos de cultivo'">
+  <app-crop-data-form/>
+</app-creation-dialog>

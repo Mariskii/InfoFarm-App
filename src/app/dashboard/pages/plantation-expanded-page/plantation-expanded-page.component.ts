@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { PlantationService } from '../../services/Plantation/plantation.service';
 import { ActivatedRoute } from '@angular/router';
 import { FullPlantation } from '../../interfaces/Plantation/FullPlantation.interface';
@@ -9,6 +9,10 @@ import { MessageService } from 'primeng/api';
 import { TableModule } from 'primeng/table';
 import { NgOptimizedImage } from '@angular/common';
 import { PaginatorModule } from 'primeng/paginator';
+import { ButtonModule } from 'primeng/button';
+import { CreationDialogComponent } from '../../components/creation-dialog/creation-dialog.component';
+import { CropDataFormComponent } from '../../components/dialogForms/crop-data-form/crop-data-form.component';
+import { PlantationFormComponent } from '../../components/dialogForms/plantation-form/plantation-form.component';
 
 
 @Component({
@@ -19,6 +23,9 @@ import { PaginatorModule } from 'primeng/paginator';
     ToastModule,
     TableModule,
     PaginatorModule,
+    ButtonModule,
+    CreationDialogComponent,
+    CropDataFormComponent
   ],
   providers:[
     //ConfirmationService,
@@ -32,6 +39,9 @@ export class PlantationExpandedPageComponent implements OnInit {
   plantationService = inject(PlantationService);
   activatedRoute = inject(ActivatedRoute);
   messageService = inject(MessageService);
+
+  @ViewChild(CreationDialogComponent) dialog!:CreationDialogComponent;
+  @ViewChild(PlantationFormComponent) plantationForm!:PlantationFormComponent;
 
   loading: boolean = false;
 
@@ -62,6 +72,7 @@ export class PlantationExpandedPageComponent implements OnInit {
     })
   }
 
+  //TODO: Implementar paginación
   onPageChange(event: any) {
 
   }

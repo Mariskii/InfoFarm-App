@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment.development';
 import { CropsResponse } from '../../interfaces/Crop/CropsResponse.interface';
@@ -15,6 +15,14 @@ export class CropService {
 
   getAllCrops() {
     return this.httpClient.get<CropsResponse>(`${environment.API_URL}/crop/get-all-crops`)
+  }
+
+  getCropsByName(name: string) {
+
+    const params = new HttpParams()
+      .set('name', name)
+
+    return this.httpClient.get<CropsResponse>(`${environment.API_URL}/crop/get-crop-by-name`,{params})
   }
 
   createCrop(cropData: CreateCrop) {

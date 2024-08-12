@@ -50,6 +50,7 @@ export class PlantationExpandedPageComponent implements OnInit {
 
   plantation?: FullPlantation;
   totalCrops: number = 0;
+  actualPage: number = 0;
 
   ngOnInit(): void {
     this.fetchPlantationFromRouteId()
@@ -94,8 +95,12 @@ export class PlantationExpandedPageComponent implements OnInit {
     });
   }
 
-  //TODO: Implementar paginación
   onPageChange(event: any) {
-
+    if(this.actualPage != event.page) {
+      this.cropService.getAllCropsByPlantationId(this.plantation!.id, event.page).subscribe(res => {
+        this.plantation!.cropData = res;
+        this.actualPage = event.page;
+      });
+    }
   }
 }

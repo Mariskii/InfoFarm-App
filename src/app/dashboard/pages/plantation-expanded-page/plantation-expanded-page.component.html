@@ -15,7 +15,7 @@
     [scrollDirection]="'both'">
     <ng-template pTemplate="caption">
         <div class="flex w-full items-center justify-between">
-            <p>Cultivos de la plantación: {{ plantation.cropData.content.length }}</p>
+            <p>Cultivos de la plantación: {{ plantation.cropData.totalElements }}</p>
 
             <button
               pButton
@@ -55,7 +55,8 @@
       [first]="1"
       [rows]="10"
       [totalRecords]="totalCrops"
-      [showFirstLastIcon]="false"/>
+      [showFirstLastIcon]="false"
+      alwaysShow="false"/>
 }
 
 <p-toast/>

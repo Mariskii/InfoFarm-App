@@ -42,7 +42,7 @@
             <td>{{cropData.crop.cropName}}</td>
             <td>{{cropData.cost}}</td>
             <td>{{cropData.kilo_price}} €/Kg</td>
-            <td>{{cropData.kilos}}</td>
+            <td>{{cropData.kilos}} Kg</td>
             <td>{{ cropData.plantating_date || 'Sin fecha' }}</td>
             <td>{{ cropData.ollection_date || 'Sin fecha' }}</td>
         </tr>
@@ -54,12 +54,13 @@
       (onPageChange)="onPageChange($event)"
       [first]="1"
       [rows]="10"
-      [totalRecords]="plantation.cropData.totalElements"
+      [totalRecords]="totalCrops"
       [showFirstLastIcon]="false"/>
 }
 
 <p-toast/>
 
 <app-creation-dialog [title]="'Datos de cultivo'">
-  <app-crop-data-form/>
+  <app-crop-data-form
+    (sendCreation)="createCropData($event)"/>
 </app-creation-dialog>

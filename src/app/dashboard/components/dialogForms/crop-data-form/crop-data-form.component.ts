@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { AutoCompleteCompleteEvent, AutoCompleteModule } from 'primeng/autocomplete';
 import { ButtonModule } from 'primeng/button';
 import { FloatLabelModule } from 'primeng/floatlabel';
@@ -8,6 +8,9 @@ import { InputTextModule } from 'primeng/inputtext';
 import { CalendarModule } from 'primeng/calendar';
 import { CropData } from '../../../interfaces/CropData/CropData.interface';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { CreateCropDataRequest } from '../../../interfaces/CropData/CreateCropData.interface';
+import { InputNumberModule } from 'primeng/inputnumber';
+
 
 @Component({
   selector: 'app-crop-data-form',
@@ -19,6 +22,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
     InputTextModule,
     CalendarModule,
     ReactiveFormsModule,
+    InputNumberModule
   ],
   templateUrl: './crop-data-form.component.html',
   styleUrl: './crop-data-form.component.scss'
@@ -27,6 +31,8 @@ export class CropDataFormComponent {
 
   cropService = inject(CropService);
   fb = inject(FormBuilder);
+
+  @Output() sendCreation = new EventEmitter<CreateCropDataRequest>();
 
   cropSelected?: Crop;
   cropDataToEdit?: CropData;
@@ -51,10 +57,33 @@ export class CropDataFormComponent {
   }
 
   completeCropData() {
+
     if(this.formCropData.valid && this.cropSelected) {
       if(this.cropDataToEdit) {
-        //const C
+        //TODO: Implementar creación
+      } else {
+
+        const { cost, kiloPrice, kilos, plantationDate, collectionDate } = this.formCropData.value;
+
+        const createCropData:CreateCropDataRequest = {
+          cropId: this.cropSelected.id,
+          cropData: {
+            cost: Number(cost),
+            kiloPrice: Number(kiloPrice),
+            kilos: Number(kilos),
+            planting_date: plantationDate ? new Date(plantationDate) : undefined,
+            collection_date: collectionDate ? new Date(collectionDate) : undefined
+          }
+        }
+
+        this.sendCreation.emit(createCropData);
+        this.resetForm();
       }
     }
+  }
+
+  resetForm() {
+    this.formCropData.reset();
+    this.cropDataToEdit = undefined;
   }
 }

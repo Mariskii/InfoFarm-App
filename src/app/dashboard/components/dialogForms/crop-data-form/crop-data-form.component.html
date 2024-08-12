@@ -1,4 +1,4 @@
-<form [formGroup]="formCropData"  class="h-fit flex flex-col mt-5 space-y-6">
+<form [formGroup]="formCropData"  class="h-fit flex flex-col mt-5 space-y-3">
   <p-floatLabel>
     <p-autoComplete
         class="w-full"
@@ -23,62 +23,77 @@
     </div>
   }
 
-  <p-floatLabel class="w-full">
-    <input
+  <div class="w-full">
+    <label for="username">Precio por Kg</label>
+    <p-inputNumber
       id="kiloPrice"
       formControlName="kiloPrice"
-      pInputText
-      class="h-[40px] bg-gray-200"
-      [style]="{'width': '100%', 'padding':'10px'}"/>
-    <label for="username">Precio por Kg</label>
-  </p-floatLabel>
+      mode="decimal"
+      suffix="€/Kg"
+      [minFractionDigits]="2"
+      [maxFractionDigits]="5"
+      inputStyleClass="h-[40px] w-full bg-gray-200 p-2"
+      class="w-full"
+      styleClass="w-full"/>
+  </div>
 
-  <p-floatLabel class="w-full">
-    <input
+  <div class="w-full">
+    <label for="username">Kilos</label>
+    <p-inputNumber
       id="kilos"
       formControlName="kilos"
-      pInputText
-      class="h-[40px] bg-gray-200"
-      [style]="{'width': '100%', 'padding':'10px'}"/>
-    <label for="username">Kilos</label>
-  </p-floatLabel>
+      mode="decimal"
+      [minFractionDigits]="2"
+      [maxFractionDigits]="5"
+      inputStyleClass="h-[40px] w-full bg-gray-200 p-2"
+      class="w-full"
+      styleClass="w-full"/>
+  </div>
 
-  <p-floatLabel class="w-full">
-    <input
+  <div class="w-full">
+    <label for="cost">Coste</label>
+    <p-inputNumber
       id="cost"
       formControlName="cost"
-      pInputText
-      class="h-[40px] bg-gray-200"
-      [style]="{'width': '100%', 'padding':'10px'}"/>
-    <label for="cost">Coste</label>
-  </p-floatLabel>
+      mode="decimal"
+      [minFractionDigits]="2"
+      [maxFractionDigits]="5"
+      inputStyleClass="h-[40px] w-full bg-gray-200 p-2"
+      class="w-full"
+      styleClass="w-full"/>
+  </div>
 
-  <p-floatLabel>
-    <p-calendar
-      id="plantationDate"
-      appendTo="body"
-      formControlName="collectionDate"
-      [iconDisplay]="'input'"
-      [showIcon]="true"
-      inputStyleClass="w-full bg-gray-200 p-2"
-      inputId="icondisplay"
-      dateFormat="dd/mm/yyyy"/>
-    <label for="plantationDate">Fecha de plantación</label>
-  </p-floatLabel>
+  <div class="flex flex-col pt-3 space-y-6">
+    <p-floatLabel>
+      <p-calendar
+        id="plantationDate"
+        appendTo="body"
+        formControlName="collectionDate"
+        [iconDisplay]="'input'"
+        [showIcon]="true"
+        inputStyleClass="w-full bg-gray-200 p-2"
+        styleClass="w-full"
+        inputId="icondisplay"
+        dateFormat="dd/mm/yyyy"/>
+      <label for="plantationDate">Fecha de plantación</label>
+    </p-floatLabel>
 
-  <p-floatLabel>
-    <p-calendar
-      id="collectionDate"
-      formControlName="collectionDate"
-      appendTo="body"
-      [iconDisplay]="'input'"
-      inputStyleClass="w-full bg-gray-200 p-2"
-      [showIcon]="true"
-      inputId="icondisplay" />
-    <label for="collectionDate">Fecha de recolección</label>
-  </p-floatLabel>
+    <p-floatLabel>
+      <p-calendar
+        id="collectionDate"
+        formControlName="collectionDate"
+        appendTo="body"
+        [iconDisplay]="'input'"
+        inputStyleClass="w-full bg-gray-200 p-2"
+        styleClass="w-full"
+        [showIcon]="true"
+        inputId="icondisplay"/>
+      <label for="collectionDate">Fecha de recolección</label>
+    </p-floatLabel>
+  </div>
 
   <button
+    (click)="completeCropData()"
     class="flex justify-center bg-green-500 text-white w-full p-2"
     pButton>
     Crear

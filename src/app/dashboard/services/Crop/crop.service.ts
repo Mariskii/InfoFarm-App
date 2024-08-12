@@ -5,6 +5,8 @@ import { CropsResponse } from '../../interfaces/Crop/CropsResponse.interface';
 import { CreateCrop } from '../../interfaces/Crop/CreateCrop.interface';
 import { Crop } from '../../interfaces/Crop/Crop.interface';
 import { UpdateCrop } from '../../interfaces/Crop/UpdateCrop.interface';
+import { CreateCropDataRequest } from '../../interfaces/CropData/CreateCropData.interface';
+import { CropData } from '../../interfaces/CropData/CropData.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -34,6 +36,10 @@ export class CropService {
     formData.append('crop', new Blob([JSON.stringify(cropData.crop)], { type: 'application/json' }));
 
     return this.httpClient.post<Crop>(`${environment.API_URL}/crop/create-crop`, formData);
+  }
+
+  createCropData(cropDataRequest: CreateCropDataRequest) {
+    return this.httpClient.post<CropData>(`${environment.API_URL}/crop/${cropDataRequest.cropId}/add-data/plantation/${cropDataRequest.plantationId}`,cropDataRequest.cropData);
   }
 
   updateCrop(cropData: UpdateCrop) {

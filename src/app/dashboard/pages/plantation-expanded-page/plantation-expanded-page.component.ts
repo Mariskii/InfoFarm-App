@@ -13,6 +13,8 @@ import { ButtonModule } from 'primeng/button';
 import { CreationDialogComponent } from '../../components/creation-dialog/creation-dialog.component';
 import { CropDataFormComponent } from '../../components/dialogForms/crop-data-form/crop-data-form.component';
 import { PlantationFormComponent } from '../../components/dialogForms/plantation-form/plantation-form.component';
+import { CreateCropDataRequest } from '../../interfaces/CropData/CreateCropData.interface';
+import { CropService } from '../../services/Crop/crop.service';
 
 
 @Component({
@@ -37,15 +39,17 @@ import { PlantationFormComponent } from '../../components/dialogForms/plantation
 export class PlantationExpandedPageComponent implements OnInit {
 
   plantationService = inject(PlantationService);
+  cropService = inject(CropService);
   activatedRoute = inject(ActivatedRoute);
   messageService = inject(MessageService);
 
   @ViewChild(CreationDialogComponent) dialog!:CreationDialogComponent;
-  @ViewChild(PlantationFormComponent) plantationForm!:PlantationFormComponent;
+  @ViewChild(CropDataFormComponent) cropDataForm!:CropDataFormComponent;
 
   loading: boolean = false;
 
   plantation?: FullPlantation;
+  totalCrops: number = 0;
 
   ngOnInit(): void {
     this.fetchPlantationFromRouteId()
@@ -68,8 +72,26 @@ export class PlantationExpandedPageComponent implements OnInit {
       })
     ).subscribe(resp => {
       this.plantation = resp;
+      this.totalCrops = this.plantation.cropData.totalElements
       this.loading = false;
     })
+  }
+
+  createCropData(cropData: CreateCropDataRequest) {
+
+    this.dialog.changeVisibility();
+
+    cropData = {...cropData, plantationId: this.plantation?.id}
+
+    this.cropService.createCropData(cropData).subscribe(res => {
+      if(this.plantation!.cropData.content.length < 10) {
+        this.plantation?.cropData.content.push(res);
+      }
+
+      ToastUtils.showToast(this.messageService,'Datos del cultivo añadidos','success');
+
+      this.totalCrops+1;
+    });
   }
 
   //TODO: Implementar paginación

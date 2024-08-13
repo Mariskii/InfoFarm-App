@@ -2,7 +2,7 @@
 
 <div class="flex flex-col w-full h-full">
 
-  <div class="flex flex-col space-y-2 sm:flex-row w-full justify-between items-center mb-4">
+  <div class="flex flex-col space-y-2 p-2 sm:flex-row w-full justify-between items-center mb-4">
     <h2 class="font-bold text-5xl">Cultivos</h2>
     <button
       pButton
@@ -15,7 +15,7 @@
     <app-skelleton-squares/>
   } @else {
     @if(crops.length > 0) {
-      <div class="h-full grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 overflow-y-auto">
+      <div class="h-full grid p-3 gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 overflow-y-auto">
         @for (crop of crops; track $index) {
           <app-crop-card
             [crop]="crop"

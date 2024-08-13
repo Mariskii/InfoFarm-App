@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Output } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component, EventEmitter, inject, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { AutoCompleteCompleteEvent, AutoCompleteModule } from 'primeng/autocomplete';
 import { ButtonModule } from 'primeng/button';
 import { FloatLabelModule } from 'primeng/floatlabel';
@@ -10,6 +10,9 @@ import { CropData } from '../../../interfaces/CropData/CropData.interface';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CreateCropDataRequest } from '../../../interfaces/CropData/CreateCropData.interface';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { ReducedCrop } from '../../../interfaces/CropData/ReducedCrop.interface';
+import { DialogModule } from 'primeng/dialog';
+import { UpdateCropData } from '../../../interfaces/CropData/UpdateCropData.interface';
 
 
 @Component({
@@ -22,29 +25,53 @@ import { InputNumberModule } from 'primeng/inputnumber';
     InputTextModule,
     CalendarModule,
     ReactiveFormsModule,
-    InputNumberModule
+    InputNumberModule,
+    DialogModule,
   ],
   templateUrl: './crop-data-form.component.html',
   styleUrl: './crop-data-form.component.scss'
 })
-export class CropDataFormComponent {
+export class CropDataFormComponent implements OnChanges {
 
   cropService = inject(CropService);
   fb = inject(FormBuilder);
 
-  @Output() sendCreation = new EventEmitter<CreateCropDataRequest>();
+  @Input() cropDataToEdit?: CropData;
+  @Input() title?: string;
 
-  cropSelected?: Crop;
-  cropDataToEdit?: CropData;
+  @Output() sendCreation = new EventEmitter<CreateCropDataRequest>();
+  @Output() sendUpdate = new EventEmitter<UpdateCropData>();
+
+  cropSelected?: ReducedCrop;
   suggestions: Crop[] = [];
 
+  visible:boolean = false;
+
   formCropData = this.fb.group({
+    crop: ['',Validators.required],
     kiloPrice: ['', [Validators.required]],
     kilos: ['', [Validators.required]],
     cost: ['', [Validators.required]],
     plantationDate: [''],
     collectionDate: ['']
   });
+
+  ngOnChanges(changes: SimpleChanges): void {
+
+    if (changes['cropDataToEdit'] && this.cropDataToEdit) {
+      this.formCropData.patchValue({
+        crop: this.cropDataToEdit.crop.cropName,
+        kiloPrice: this.cropDataToEdit.kilo_price.toString(),
+        kilos: this.cropDataToEdit.kilos.toString(),
+        cost: this.cropDataToEdit.cost.toString(),
+        plantationDate: this.cropDataToEdit.collection_date?.toString(),
+        collectionDate: this.cropDataToEdit.collection_date?.toString()
+      });
+
+      this.cropSelected = this.cropDataToEdit.crop;
+    }
+
+  }
 
   search(event: AutoCompleteCompleteEvent) {
     this.cropService.getCropsByName(event.query).subscribe(res => {
@@ -59,31 +86,46 @@ export class CropDataFormComponent {
   completeCropData() {
 
     if(this.formCropData.valid && this.cropSelected) {
-      if(this.cropDataToEdit) {
-        //TODO: Implementar creación
-      } else {
 
-        const { cost, kiloPrice, kilos, plantationDate, collectionDate } = this.formCropData.value;
+      const { cost, kiloPrice, kilos, plantationDate, collectionDate } = this.formCropData.value;
+
+      const cropDataForm = {
+        cost: Number(cost),
+        kilo_price: Number(kiloPrice),
+        kilos: Number(kilos),
+        planting_date: plantationDate ? new Date(plantationDate) : undefined,
+        collection_date: collectionDate ? new Date(collectionDate) : undefined
+      }
+
+      if(this.cropDataToEdit) {
+
+        const updateCropData: UpdateCropData = {
+          cropDataId: this.cropDataToEdit.id,
+          cropId: this.cropSelected.id,
+          cropData: cropDataForm
+        }
+
+        this.sendUpdate.emit(updateCropData);
+      } else {
 
         const createCropData:CreateCropDataRequest = {
           cropId: this.cropSelected.id,
-          cropData: {
-            cost: Number(cost),
-            kiloPrice: Number(kiloPrice),
-            kilos: Number(kilos),
-            planting_date: plantationDate ? new Date(plantationDate) : undefined,
-            collection_date: collectionDate ? new Date(collectionDate) : undefined
-          }
+          cropData: cropDataForm
         }
 
         this.sendCreation.emit(createCropData);
-        this.resetForm();
       }
+
+      this.resetForm();
     }
   }
 
   resetForm() {
     this.formCropData.reset();
-    this.cropDataToEdit = undefined;
+    this.cropSelected = undefined;
+  }
+
+  changeVisibility() {
+    this.visible = !this.visible;
   }
 }

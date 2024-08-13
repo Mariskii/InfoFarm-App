@@ -8,6 +8,7 @@ import { UpdateCrop } from '../../interfaces/Crop/UpdateCrop.interface';
 import { CreateCropDataRequest } from '../../interfaces/CropData/CreateCropData.interface';
 import { CropData } from '../../interfaces/CropData/CropData.interface';
 import { CropDataPage } from '../../interfaces/Plantation/FullPlantation.interface';
+import { UpdateCropData } from '../../interfaces/CropData/UpdateCropData.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -63,6 +64,10 @@ export class CropService {
 
 
     return this.httpClient.put<Crop>(`${environment.API_URL}/crop/update-crop`, formData);
+  }
+
+  updateCropData(cropDataUpdate: UpdateCropData) {
+    return this.httpClient.put<CropData>(`${environment.API_URL}/crop/crop-data/update/${cropDataUpdate.cropDataId}/crop/${cropDataUpdate.cropId}`,cropDataUpdate.cropData)
   }
 
   deleteCrop(idCrop: number) {

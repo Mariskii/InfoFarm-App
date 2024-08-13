@@ -1,101 +1,112 @@
-<form [formGroup]="formCropData"  class="h-fit flex flex-col mt-5 space-y-3">
-  <p-floatLabel>
-    <p-autoComplete
-        class="w-full"
-        styleClass="h-[40px]"
-        [suggestions]="suggestions"
-        [field]="'cropName'"
-        [delay]="1000"
-        inputStyleClass="w-full bg-gray-200 p-2"
-        [style]="{'width':'100%'}"
-        (onSelect)="selectCrop($event)"
-        (completeMethod)="search($event)" />
-    <label for="username">Cultivo</label>
-  </p-floatLabel>
+<p-dialog
+  [header]="title"
+  [modal]="true"
+  [(visible)]="visible"
+  styleClass="w-fit h-fit bg-slate-500">
 
-  @if (cropSelected) {
-    <div>
-      <p>Cultivo seleccionado:</p>
-      <div class="flex justify-between items-center w-full bg-gray-200 rounded-md p-2">
-        <img [src]="cropSelected.cropImage || '../../../../../assets/no-image.png'" width="50" height="50" [alt]="cropSelected.cropName">
-        <p>{{ cropSelected.cropName }}</p>
+  <form [formGroup]="formCropData"  class="h-fit flex flex-col mt-5 space-y-3">
+    <p-floatLabel>
+      <p-autoComplete
+          formControlName="crop"
+          class="w-full"
+          styleClass="h-[40px]"
+          [suggestions]="suggestions"
+          [field]="'cropName'"
+          [delay]="1000"
+          inputStyleClass="w-full bg-gray-200 p-2"
+          [style]="{'width':'100%'}"
+          (onSelect)="selectCrop($event)"
+          (completeMethod)="search($event)" />
+      <label for="username">Cultivo</label>
+    </p-floatLabel>
+
+    @if (cropSelected) {
+      <div>
+        <p>Cultivo seleccionado:</p>
+        <div class="flex justify-between items-center w-full bg-gray-200 rounded-md p-2">
+          <img [src]="cropSelected.cropImage || '../../../../../assets/no-image.png'" width="50" height="50" [alt]="cropSelected.cropName">
+          <p>{{ cropSelected.cropName }}</p>
+        </div>
       </div>
+    }
+
+    <div class="w-full">
+      <label for="username">Precio por Kg</label>
+      <p-inputNumber
+        id="kiloPrice"
+        formControlName="kiloPrice"
+        mode="decimal"
+        suffix="€/Kg"
+        [minFractionDigits]="2"
+        [maxFractionDigits]="5"
+        inputStyleClass="h-[40px] w-full bg-gray-200 p-2"
+        class="w-full"
+        styleClass="w-full"/>
     </div>
-  }
 
-  <div class="w-full">
-    <label for="username">Precio por Kg</label>
-    <p-inputNumber
-      id="kiloPrice"
-      formControlName="kiloPrice"
-      mode="decimal"
-      suffix="€/Kg"
-      [minFractionDigits]="2"
-      [maxFractionDigits]="5"
-      inputStyleClass="h-[40px] w-full bg-gray-200 p-2"
-      class="w-full"
-      styleClass="w-full"/>
-  </div>
+    <div class="w-full">
+      <label for="username">Kilos</label>
+      <p-inputNumber
+        id="kilos"
+        formControlName="kilos"
+        mode="decimal"
+        [minFractionDigits]="2"
+        [maxFractionDigits]="5"
+        inputStyleClass="h-[40px] w-full bg-gray-200 p-2"
+        class="w-full"
+        styleClass="w-full"/>
+    </div>
 
-  <div class="w-full">
-    <label for="username">Kilos</label>
-    <p-inputNumber
-      id="kilos"
-      formControlName="kilos"
-      mode="decimal"
-      [minFractionDigits]="2"
-      [maxFractionDigits]="5"
-      inputStyleClass="h-[40px] w-full bg-gray-200 p-2"
-      class="w-full"
-      styleClass="w-full"/>
-  </div>
+    <div class="w-full">
+      <label for="cost">Coste</label>
+      <p-inputNumber
+        id="cost"
+        formControlName="cost"
+        mode="decimal"
+        [minFractionDigits]="2"
+        [maxFractionDigits]="5"
+        inputStyleClass="h-[40px] w-full bg-gray-200 p-2"
+        class="w-full"
+        styleClass="w-full"/>
+    </div>
 
-  <div class="w-full">
-    <label for="cost">Coste</label>
-    <p-inputNumber
-      id="cost"
-      formControlName="cost"
-      mode="decimal"
-      [minFractionDigits]="2"
-      [maxFractionDigits]="5"
-      inputStyleClass="h-[40px] w-full bg-gray-200 p-2"
-      class="w-full"
-      styleClass="w-full"/>
-  </div>
+    <div class="flex flex-col pt-3 space-y-6">
+      <p-floatLabel>
+        <p-calendar
+          id="plantationDate"
+          appendTo="body"
+          formControlName="collectionDate"
+          [iconDisplay]="'input'"
+          [showIcon]="true"
+          inputStyleClass="w-full bg-gray-200 p-2"
+          styleClass="w-full"
+          inputId="icondisplay"
+          dateFormat="dd/mm/yyyy"/>
+        <label for="plantationDate">Fecha de plantación</label>
+      </p-floatLabel>
 
-  <div class="flex flex-col pt-3 space-y-6">
-    <p-floatLabel>
-      <p-calendar
-        id="plantationDate"
-        appendTo="body"
-        formControlName="collectionDate"
-        [iconDisplay]="'input'"
-        [showIcon]="true"
-        inputStyleClass="w-full bg-gray-200 p-2"
-        styleClass="w-full"
-        inputId="icondisplay"
-        dateFormat="dd/mm/yyyy"/>
-      <label for="plantationDate">Fecha de plantación</label>
-    </p-floatLabel>
+      <p-floatLabel>
+        <p-calendar
+          id="collectionDate"
+          formControlName="collectionDate"
+          appendTo="body"
+          [iconDisplay]="'input'"
+          inputStyleClass="w-full bg-gray-200 p-2"
+          styleClass="w-full"
+          [showIcon]="true"
+          inputId="icondisplay"/>
+        <label for="collectionDate">Fecha de recolección</label>
+      </p-floatLabel>
+    </div>
 
-    <p-floatLabel>
-      <p-calendar
-        id="collectionDate"
-        formControlName="collectionDate"
-        appendTo="body"
-        [iconDisplay]="'input'"
-        inputStyleClass="w-full bg-gray-200 p-2"
-        styleClass="w-full"
-        [showIcon]="true"
-        inputId="icondisplay"/>
-      <label for="collectionDate">Fecha de recolección</label>
-    </p-floatLabel>
-  </div>
+    <button
+      (click)="completeCropData()"
+      class="flex justify-center bg-green-500 text-white w-full p-2"
+      pButton>
+      Aceptar
+    </button>
+  </form>
 
-  <button
-    (click)="completeCropData()"
-    class="flex justify-center bg-green-500 text-white w-full p-2"
-    pButton>
-    Crear
-  </button>
-</form>
+</p-dialog>
+
+

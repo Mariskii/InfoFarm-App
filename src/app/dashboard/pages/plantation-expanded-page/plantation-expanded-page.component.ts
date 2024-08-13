@@ -12,9 +12,10 @@ import { PaginatorModule } from 'primeng/paginator';
 import { ButtonModule } from 'primeng/button';
 import { CreationDialogComponent } from '../../components/creation-dialog/creation-dialog.component';
 import { CropDataFormComponent } from '../../components/dialogForms/crop-data-form/crop-data-form.component';
-import { PlantationFormComponent } from '../../components/dialogForms/plantation-form/plantation-form.component';
 import { CreateCropDataRequest } from '../../interfaces/CropData/CreateCropData.interface';
 import { CropService } from '../../services/Crop/crop.service';
+import { CropData } from '../../interfaces/CropData/CropData.interface';
+import { UpdateCropData } from '../../interfaces/CropData/UpdateCropData.interface';
 
 
 @Component({
@@ -43,14 +44,15 @@ export class PlantationExpandedPageComponent implements OnInit {
   activatedRoute = inject(ActivatedRoute);
   messageService = inject(MessageService);
 
-  @ViewChild(CreationDialogComponent) dialog!:CreationDialogComponent;
   @ViewChild(CropDataFormComponent) cropDataForm!:CropDataFormComponent;
 
   loading: boolean = false;
 
   plantation?: FullPlantation;
+  cropDataToEdit?: CropData;
   totalCrops: number = 0;
   actualPage: number = 0;
+  dialogTitle:string = '';
 
   ngOnInit(): void {
     this.fetchPlantationFromRouteId()
@@ -78,9 +80,25 @@ export class PlantationExpandedPageComponent implements OnInit {
     })
   }
 
+  showDialog(cropDataIndex?: number) {
+
+    this.cropDataToEdit = undefined;
+
+    this.dialogTitle = cropDataIndex !== undefined ? 'Editar datos' : 'Añadir cultivo';
+
+    if(cropDataIndex !== undefined){
+      this.cropDataToEdit = this.plantation?.cropData.content![cropDataIndex];
+    }
+    else {
+      this.cropDataForm.resetForm();
+    }
+
+    this.cropDataForm.changeVisibility();
+  }
+
   createCropData(cropData: CreateCropDataRequest) {
 
-    this.dialog.changeVisibility();
+    this.cropDataForm.changeVisibility();
 
     cropData = {...cropData, plantationId: this.plantation?.id}
 
@@ -91,7 +109,24 @@ export class PlantationExpandedPageComponent implements OnInit {
 
       ToastUtils.showToast(this.messageService,'Datos del cultivo añadidos','success');
 
-      this.totalCrops+1;
+      this.totalCrops++;
+    });
+  }
+
+  editCropData(cropData: UpdateCropData) {
+
+    this.cropDataForm.changeVisibility();
+
+    this.cropService.updateCropData(cropData).pipe(
+      catchError(err => {
+        ToastUtils.showToast(this.messageService,'No se han podido actualizar los datos','error');
+        return of();
+      })
+    ).subscribe(res => {
+      const index = this.plantation!.cropData.content.findIndex(cropData => res.id === cropData.id);
+      this.plantation!.cropData.content[index] = res;
+
+      ToastUtils.showToast(this.messageService,'Datos del cultivo editados correctamente','success');
     });
   }
 

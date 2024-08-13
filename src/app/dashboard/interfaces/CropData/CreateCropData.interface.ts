@@ -1,12 +1,12 @@
 export interface CreateCropDataRequest {
   plantationId?: number,
   cropId: number,
-  cropData: CreateCropData
+  cropData: CropDataRequest
 }
 
-export interface CreateCropData {
+export interface CropDataRequest {
   kilos: number,
-  kiloPrice: number,
+  kilo_price: number,
   cost: number,
   planting_date?: Date,
   collection_date?: Date

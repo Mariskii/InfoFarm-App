@@ -73,4 +73,8 @@ export class CropService {
   deleteCrop(idCrop: number) {
     return this.httpClient.delete<void>(`${environment.API_URL}/crop/delete-crop/${idCrop}`);
   }
+
+  deleteCropData(idCropData: number) {
+    return this.httpClient.delete<void>(`${environment.API_URL}/crop/deleteData/${idCropData}`);
+  }
 }

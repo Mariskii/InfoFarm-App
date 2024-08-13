@@ -34,7 +34,7 @@
             <th>Kilos</th>
             <th>Fecha de plantación</th>
             <th>Fecha de recolección</th>
-            <th>Editar</th>
+            <th>Acciones</th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" class=" overflow-auto" let-cropData let-rowIndex="rowIndex">
@@ -51,6 +51,10 @@
                 (click)="showDialog(rowIndex)"
                 icon="pi pi-pencil"
                 pButton></button>
+                <button
+                (click)="setConfirmation($event,rowIndex)"
+                icon="pi pi-trash"
+                pButton></button>
             </td>
         </tr>
     </ng-template>
@@ -65,6 +69,8 @@
       [showFirstLastIcon]="false"
       alwaysShow="false"/>
 }
+
+<p-confirmPopup />
 
 <p-toast/>
 

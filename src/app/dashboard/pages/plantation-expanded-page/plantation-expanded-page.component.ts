@@ -5,7 +5,7 @@ import { FullPlantation } from '../../interfaces/Plantation/FullPlantation.inter
 import { catchError, of } from 'rxjs';
 import { ToastModule } from 'primeng/toast';
 import { ToastUtils } from '../../utils/ToastUtil';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { TableModule } from 'primeng/table';
 import { NgOptimizedImage } from '@angular/common';
 import { PaginatorModule } from 'primeng/paginator';
@@ -16,6 +16,7 @@ import { CreateCropDataRequest } from '../../interfaces/CropData/CreateCropData.
 import { CropService } from '../../services/Crop/crop.service';
 import { CropData } from '../../interfaces/CropData/CropData.interface';
 import { UpdateCropData } from '../../interfaces/CropData/UpdateCropData.interface';
+import { ConfirmPopupModule } from 'primeng/confirmpopup';
 
 
 @Component({
@@ -28,11 +29,12 @@ import { UpdateCropData } from '../../interfaces/CropData/UpdateCropData.interfa
     PaginatorModule,
     ButtonModule,
     CreationDialogComponent,
-    CropDataFormComponent
+    CropDataFormComponent,
+    ConfirmPopupModule,
   ],
   providers:[
-    //ConfirmationService,
     MessageService,
+    ConfirmationService,
   ],
   templateUrl: './plantation-expanded-page.component.html',
   styleUrl: './plantation-expanded-page.component.scss'
@@ -43,6 +45,8 @@ export class PlantationExpandedPageComponent implements OnInit {
   cropService = inject(CropService);
   activatedRoute = inject(ActivatedRoute);
   messageService = inject(MessageService);
+
+  confirmService = inject(ConfirmationService);
 
   @ViewChild(CropDataFormComponent) cropDataForm!:CropDataFormComponent;
 
@@ -127,6 +131,30 @@ export class PlantationExpandedPageComponent implements OnInit {
       this.plantation!.cropData.content[index] = res;
 
       ToastUtils.showToast(this.messageService,'Datos del cultivo editados correctamente','success');
+    });
+  }
+
+  deleteCropData(cropIndex: number) {
+    this.cropService.deleteCropData(this.plantation!.cropData.content[cropIndex].id).pipe(
+      catchError(err => {
+        ToastUtils.showToast(this.messageService,'No se han podido eliminar los datos','error');
+        return of()
+      })
+    ).subscribe(() => {
+      this.plantation!.cropData.content.splice(cropIndex,1);
+      this.totalCrops--;
+      ToastUtils.showToast(this.messageService,'Datos eliminados','success');
+    });
+  }
+
+  setConfirmation(event: Event, cropIndex: number) {
+    this.confirmService.confirm({
+      target: event.target as EventTarget,
+      message: '¿Seguro que quieres borrar los datos?',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.deleteCropData(cropIndex);
+      },
     });
   }
 

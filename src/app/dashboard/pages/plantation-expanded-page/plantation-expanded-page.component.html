@@ -8,6 +8,7 @@
 @if (plantation) {
   <p-table
     [value]="plantation!.cropData.content"
+    [(selection)]="selectedCrops"
     scrollHeight="flex"
     styleClass="p-datatable-striped h-[70%] sm:h-4/5"
     [loading]="loading"
@@ -17,9 +18,16 @@
         <div class="flex flex-col sm:flex-row w-[500px] items-center justify-between">
             <p>Cultivos de la plantación: {{ totalCrops }}</p>
 
+
+
             <button
               pButton
               (click)="showDialog()"
+              class="text-white bg-green-500 p-2 hover:bg-green-700"
+              icon="pi pi-plus">Crear pedido</button>
+
+            <button
+              pButton
               class="text-white bg-green-500 p-2 hover:bg-green-700"
               icon="pi pi-plus">Añadir cultivo</button>
         </div>
@@ -27,6 +35,7 @@
 
     <ng-template pTemplate="header">
         <tr>
+            <th style="width: 4rem"><p-tableHeaderCheckbox/></th>
             <th>Imagen</th>
             <th>Nombre</th>
             <th>Coste</th>
@@ -39,6 +48,9 @@
     </ng-template>
     <ng-template pTemplate="body" class=" overflow-auto" let-cropData let-rowIndex="rowIndex">
         <tr>
+            <td>
+              <p-tableCheckbox [value]="cropData" />
+            </td>
             <td><img [ngSrc]="cropData.crop.cropImage || '../../../../assets/no-image.png'" [alt]="cropData.crop.cropName" width="100" height="100" priority class="shadow-4" /></td>
             <td>{{cropData.crop.cropName}}</td>
             <td>{{cropData.cost}}</td>

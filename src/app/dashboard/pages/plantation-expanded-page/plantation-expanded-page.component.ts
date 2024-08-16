@@ -17,6 +17,7 @@ import { CropService } from '../../services/Crop/crop.service';
 import { CropData } from '../../interfaces/CropData/CropData.interface';
 import { UpdateCropData } from '../../interfaces/CropData/UpdateCropData.interface';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 
 
 @Component({
@@ -31,6 +32,7 @@ import { ConfirmPopupModule } from 'primeng/confirmpopup';
     CreationDialogComponent,
     CropDataFormComponent,
     ConfirmPopupModule,
+    AutoCompleteModule,
   ],
   providers:[
     MessageService,
@@ -54,6 +56,7 @@ export class PlantationExpandedPageComponent implements OnInit {
 
   plantation?: FullPlantation;
   cropDataToEdit?: CropData;
+  selectedCrops?: CropData;
   totalCrops: number = 0;
   actualPage: number = 0;
   dialogTitle:string = '';

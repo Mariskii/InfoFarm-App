@@ -18,6 +18,7 @@ import { CropData } from '../../interfaces/CropData/CropData.interface';
 import { UpdateCropData } from '../../interfaces/CropData/UpdateCropData.interface';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { AutoCompleteModule } from 'primeng/autocomplete';
+import { CreateOrderFromPlantationComponent } from '../../components/dialogForms/create-order-from-plantation/create-order-from-plantation.component';
 
 
 @Component({
@@ -33,6 +34,7 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
     CropDataFormComponent,
     ConfirmPopupModule,
     AutoCompleteModule,
+    CreateOrderFromPlantationComponent,
   ],
   providers:[
     MessageService,
@@ -51,15 +53,23 @@ export class PlantationExpandedPageComponent implements OnInit {
   confirmService = inject(ConfirmationService);
 
   @ViewChild(CropDataFormComponent) cropDataForm!:CropDataFormComponent;
+  @ViewChild(CreateOrderFromPlantationComponent) orderForm!:CreateOrderFromPlantationComponent;
 
   loading: boolean = false;
 
   plantation?: FullPlantation;
+
   cropDataToEdit?: CropData;
-  selectedCrops?: CropData;
+
+  selectedCrops: CropData[] = [];
+
   totalCrops: number = 0;
+
   actualPage: number = 0;
+
   dialogTitle:string = '';
+
+  createOrderStep:number = 0;
 
   ngOnInit(): void {
     this.fetchPlantationFromRouteId()
@@ -168,5 +178,27 @@ export class PlantationExpandedPageComponent implements OnInit {
         this.actualPage = event.page;
       });
     }
+  }
+
+  continueOrderCreation() {
+    this.createOrderStep++;
+    switch(this.createOrderStep) {
+      case 2:
+        if(this.selectedCrops.length > 0) {
+          this.orderForm.changeVisibility();
+        }
+        else {
+          ToastUtils.showToast(this.messageService,'Debes seleccionar por lo menos un cultivo','error');
+        }
+
+        this.createOrderStep--;
+      break;
+    }
+
+  }
+
+  cancelOrder() {
+    this.createOrderStep = 0;
+    this.selectedCrops = [];
   }
 }

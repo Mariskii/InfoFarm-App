@@ -195,7 +195,8 @@ export class PlantationExpandedPageComponent implements OnInit {
             header: 'Crear Pedido',
             data: {
               selectedCrops: this.selectedCrops
-            }
+            },
+            focusOnShow: false
           });
 
           ref.onClose.subscribe((data: any) => {

@@ -1,13 +1,16 @@
-import { AfterContentInit, AfterViewChecked, AfterViewInit, Component, Inject, inject, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Inject, inject, OnInit } from '@angular/core';
 import { DialogModule } from 'primeng/dialog';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { CropData } from '../../../interfaces/CropData/CropData.interface';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { maxKilosOrder } from '../../../validators/maxKilosOrder.validator';
+import { CalendarModule } from 'primeng/calendar';
+import { CheckboxModule } from 'primeng/checkbox';
+import { InputTextModule } from 'primeng/inputtext';
 
 @Component({
   selector: 'app-create-order-from-plantation',
@@ -20,6 +23,9 @@ import { maxKilosOrder } from '../../../validators/maxKilosOrder.validator';
     NgOptimizedImage,
     ButtonModule,
     ReactiveFormsModule,
+    CalendarModule,
+    CheckboxModule,
+    InputTextModule,
   ],
   templateUrl: './create-order-from-plantation.component.html',
   styleUrl: './create-order-from-plantation.component.scss'
@@ -32,6 +38,10 @@ export class CreateOrderFromPlantationComponent implements OnInit  {
   cropDataSelected:CropData[] = [];
 
   formKilos = this.fb.group({
+    costumer: ['', Validators.required],
+    orderDate: [''],
+    deliveryDate: [''],
+    paid:[false],
     kilos: this.fb.array([])
   });
 
@@ -57,7 +67,6 @@ export class CreateOrderFromPlantationComponent implements OnInit  {
   }
 
   completeOrder() {
-    console.log(this.kilos.at(0).invalid);
 
     if(this.formKilos.valid) {
       const result = this.formKilos.value.kilos!.map((control: any, index: number) => ({

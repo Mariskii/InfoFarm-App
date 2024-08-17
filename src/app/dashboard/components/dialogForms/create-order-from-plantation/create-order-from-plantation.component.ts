@@ -1,48 +1,74 @@
-import { Component, inject, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { AfterContentInit, AfterViewChecked, AfterViewInit, Component, Inject, inject, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { DialogModule } from 'primeng/dialog';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { CropData } from '../../../interfaces/CropData/CropData.interface';
-import { NgOptimizedImage } from '@angular/common';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ButtonModule } from 'primeng/button';
+import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { maxKilosOrder } from '../../../validators/maxKilosOrder.validator';
 
 @Component({
   selector: 'app-create-order-from-plantation',
   standalone: true,
   imports: [
+    CommonModule,
     FloatLabelModule,
     InputNumberModule,
     DialogModule,
     NgOptimizedImage,
+    ButtonModule,
+    ReactiveFormsModule,
   ],
   templateUrl: './create-order-from-plantation.component.html',
   styleUrl: './create-order-from-plantation.component.scss'
 })
-export class CreateOrderFromPlantationComponent implements OnChanges {
+export class CreateOrderFromPlantationComponent implements OnInit  {
 
-  formBuilder = inject(FormBuilder);
+  fb = inject(FormBuilder);
+  ref = inject(DynamicDialogRef);
 
-  @Input() cropDataSelected:CropData[] = [];
+  cropDataSelected:CropData[] = [];
 
-  visible:boolean = false;
+  formKilos = this.fb.group({
+    kilos: this.fb.array([])
+  });
 
-  selectedCropsForm?: FormGroup;
-
-  ngOnChanges(changes: SimpleChanges): void {
-
-    if (changes['cropDataSelected'] && this.cropDataSelected) {
-
-
-
-    }
+  constructor(@Inject(DynamicDialogConfig) private config: DynamicDialogConfig) {
 
   }
 
-  changeVisibility() {
-    this.visible = !this.visible;
+  ngOnInit(): void {
+    this.cropDataSelected = this.config.data.selectedCrops;
+    this.initializeFormArray();
+  }
+
+  initializeFormArray() {
+    this.cropDataSelected.forEach(cropData => {
+      this.kilos.push(this.fb.group({
+        kilo: [null, [Validators.required, Validators.min(0), maxKilosOrder(cropData.kilos)]]
+      }));
+    });
+  }
+
+  get kilos() {
+    return this.formKilos.controls['kilos'] as FormArray;
   }
 
   completeOrder() {
-    this.cropDataSelected = [];
+    console.log(this.kilos.at(0).invalid);
+
+    if(this.formKilos.valid) {
+      const result = this.formKilos.value.kilos!.map((control: any, index: number) => ({
+        cropDataId: this.cropDataSelected[index].id,
+        kilos: control.kilo
+      }));
+
+      this.ref.close(result);
+    } else {
+      this.formKilos.markAllAsTouched();
+    }
   }
+
 }

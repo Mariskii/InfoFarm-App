@@ -19,6 +19,8 @@ import { UpdateCropData } from '../../interfaces/CropData/UpdateCropData.interfa
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { CreateOrderFromPlantationComponent } from '../../components/dialogForms/create-order-from-plantation/create-order-from-plantation.component';
+import { DialogService, DynamicDialogConfig, DynamicDialogModule, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { BrowserModule } from '@angular/platform-browser';
 
 
 @Component({
@@ -35,10 +37,13 @@ import { CreateOrderFromPlantationComponent } from '../../components/dialogForms
     ConfirmPopupModule,
     AutoCompleteModule,
     CreateOrderFromPlantationComponent,
+    DynamicDialogModule,
   ],
   providers:[
     MessageService,
     ConfirmationService,
+    DialogService,
+    DynamicDialogConfig,
   ],
   templateUrl: './plantation-expanded-page.component.html',
   styleUrl: './plantation-expanded-page.component.scss'
@@ -49,6 +54,7 @@ export class PlantationExpandedPageComponent implements OnInit {
   cropService = inject(CropService);
   activatedRoute = inject(ActivatedRoute);
   messageService = inject(MessageService);
+  dialogService = inject(DialogService);
 
   confirmService = inject(ConfirmationService);
 
@@ -185,7 +191,20 @@ export class PlantationExpandedPageComponent implements OnInit {
     switch(this.createOrderStep) {
       case 2:
         if(this.selectedCrops.length > 0) {
-          this.orderForm.changeVisibility();
+          const ref = this.dialogService.open(CreateOrderFromPlantationComponent, {
+            header: 'Crear Pedido',
+            data: {
+              selectedCrops: this.selectedCrops
+            }
+          });
+
+          ref.onClose.subscribe((data: any) => {
+            if (data) {
+                console.log(data);
+
+            }
+        });
+
         }
         else {
           ToastUtils.showToast(this.messageService,'Debes seleccionar por lo menos un cultivo','error');

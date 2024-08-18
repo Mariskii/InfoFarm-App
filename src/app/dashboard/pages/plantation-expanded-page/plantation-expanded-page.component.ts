@@ -7,7 +7,7 @@ import { ToastModule } from 'primeng/toast';
 import { ToastUtils } from '../../utils/ToastUtil';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { TableModule } from 'primeng/table';
-import { NgOptimizedImage } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { PaginatorModule } from 'primeng/paginator';
 import { ButtonModule } from 'primeng/button';
 import { CreationDialogComponent } from '../../components/creation-dialog/creation-dialog.component';
@@ -28,6 +28,7 @@ import { OrderService } from '../../services/Orders/order.service';
   selector: 'app-plantation-expanded-page',
   standalone: true,
   imports: [
+    CommonModule,
     NgOptimizedImage,
     ToastModule,
     TableModule,
@@ -203,15 +204,19 @@ export class PlantationExpandedPageComponent implements OnInit {
 
           ref.onClose.subscribe((data: any) => {
             if (data) {
-              console.log(data);
               this.orderService.createOrder(data).pipe(
                 catchError(err => {
                   ToastUtils.showToast(this.messageService,'No se ha podido crear la factura','error');
                   return of()
                 })
               ).subscribe(resp => {
-                ToastUtils.showToast(this.messageService,'Factura creada con éxito','success');
+                this.createOrderStep = 0;
+                this.selectedCrops = [];
+
                 console.log(resp);
+
+                ToastUtils.showToast(this.messageService,'Factura creada con éxito','success');
+                //TODO: Settear los nuevos kilos de los productos
               });
             }
         });

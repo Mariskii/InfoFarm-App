@@ -61,6 +61,8 @@
             <th>Coste</th>
             <th>Precio/kg</th>
             <th>Kilos</th>
+            <th>Hectáreas</th>
+            <th>Kilos/Hectárea</th>
             <th>Fecha de plantación</th>
             <th>Fecha de recolección</th>
             <th>Acciones</th>
@@ -74,10 +76,12 @@
               </td>
             }
             <td><img [ngSrc]="cropData.crop.cropImage || '../../../../assets/no-image.png'" [alt]="cropData.crop.cropName" width="100" height="100" priority class="shadow-4" /></td>
-            <td>{{cropData.crop.cropName}}</td>
+            <td>{{cropData.crop.cropName | titlecase}}</td>
             <td>{{cropData.cost}}</td>
             <td>{{cropData.kilo_price}} €/Kg</td>
-            <td>{{cropData.kilos}} Kg</td>
+            <td>{{cropData.kilos | number:'1.2-2'}} Kg</td>
+            <td>{{ cropData.hectare | number:'1.2-2'}}</td>
+            <td>{{ cropData.kilos_hectare | number:'1.2-2' }}/Kg</td>
             <td>{{ cropData.plantating_date || 'Sin fecha' }}</td>
             <td>{{ cropData.ollection_date || 'Sin fecha' }}</td>
             <td>

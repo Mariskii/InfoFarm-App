@@ -10,4 +10,6 @@ export interface CropDataRequest {
   cost: number,
   planting_date?: Date,
   collection_date?: Date
+  hectare: number,
+  kilos_hectare?: number
 }

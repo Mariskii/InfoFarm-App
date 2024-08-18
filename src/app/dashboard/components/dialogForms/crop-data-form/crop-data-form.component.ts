@@ -53,7 +53,8 @@ export class CropDataFormComponent implements OnChanges {
     kilos: ['', [Validators.required]],
     cost: ['', [Validators.required]],
     plantationDate: [''],
-    collectionDate: ['']
+    collectionDate: [''],
+    hectare: ['', Validators.required],
   });
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -87,14 +88,15 @@ export class CropDataFormComponent implements OnChanges {
 
     if(this.formCropData.valid && this.cropSelected) {
 
-      const { cost, kiloPrice, kilos, plantationDate, collectionDate } = this.formCropData.value;
+      const { cost, kiloPrice, kilos, plantationDate, collectionDate, hectare } = this.formCropData.value;
 
       const cropDataForm = {
         cost: Number(cost),
         kilo_price: Number(kiloPrice),
         kilos: Number(kilos),
         planting_date: plantationDate ? new Date(plantationDate) : undefined,
-        collection_date: collectionDate ? new Date(collectionDate) : undefined
+        collection_date: collectionDate ? new Date(collectionDate) : undefined,
+        hectare: Number(hectare),
       }
 
       if(this.cropDataToEdit) {
@@ -102,7 +104,7 @@ export class CropDataFormComponent implements OnChanges {
         const updateCropData: UpdateCropData = {
           cropDataId: this.cropDataToEdit.id,
           cropId: this.cropSelected.id,
-          cropData: cropDataForm
+          cropData: cropDataForm,
         }
 
         this.sendUpdate.emit(updateCropData);

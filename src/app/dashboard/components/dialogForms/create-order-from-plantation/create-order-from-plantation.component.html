@@ -34,7 +34,7 @@
       formControlName="deliveryDate"
       appendTo="body"
       [iconDisplay]="'input'"
-      dateFormat="dd/mm/yyyy"
+      dateFormat="dd/mm/yy"
       inputStyleClass="w-full bg-gray-200 p-2"
       styleClass="w-full"
       [showIcon]="true"
@@ -71,7 +71,7 @@
                 suffix="/Kg"
                 class="h-[40px]"></p-inputNumber>
                 <div class="flex justify-between items-center m-2">
-                  <p>Kilos: {{ cropDataSelected[$index].kilos }}</p>
+                  <p>Kilos: {{ cropDataSelected[$index].kilos | number:'1.2-2' }}</p>
                   <p>Precio: {{ cropDataSelected[$index].kilo_price }}€/Kg</p>
                 </div>
 

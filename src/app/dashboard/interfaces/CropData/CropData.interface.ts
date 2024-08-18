@@ -7,6 +7,8 @@ export interface CropData {
   kilo_price: number,
   cost: number,
   kilos:number,
-  crop: ReducedCrop
-  //TODO: Implementar needs
+  type_surface: string,
+  kilos_surface: number,
+  surface: number,
+  crop: ReducedCrop,
 }

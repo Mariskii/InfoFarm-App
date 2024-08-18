@@ -13,6 +13,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { ReducedCrop } from '../../../interfaces/CropData/ReducedCrop.interface';
 import { DialogModule } from 'primeng/dialog';
 import { UpdateCropData } from '../../../interfaces/CropData/UpdateCropData.interface';
+import { ToggleButtonModule } from 'primeng/togglebutton';
 
 
 @Component({
@@ -27,6 +28,7 @@ import { UpdateCropData } from '../../../interfaces/CropData/UpdateCropData.inte
     ReactiveFormsModule,
     InputNumberModule,
     DialogModule,
+    ToggleButtonModule,
   ],
   templateUrl: './crop-data-form.component.html',
   styleUrl: './crop-data-form.component.scss'
@@ -54,7 +56,8 @@ export class CropDataFormComponent implements OnChanges {
     cost: ['', [Validators.required]],
     plantationDate: [''],
     collectionDate: [''],
-    hectare: ['', Validators.required],
+    surface: ['', Validators.required],
+    unitType: [false] //false = m², true = ha
   });
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -88,7 +91,7 @@ export class CropDataFormComponent implements OnChanges {
 
     if(this.formCropData.valid && this.cropSelected) {
 
-      const { cost, kiloPrice, kilos, plantationDate, collectionDate, hectare } = this.formCropData.value;
+      const { cost, kiloPrice, kilos, plantationDate, collectionDate, surface, unitType } = this.formCropData.value;
 
       const cropDataForm = {
         cost: Number(cost),
@@ -96,8 +99,12 @@ export class CropDataFormComponent implements OnChanges {
         kilos: Number(kilos),
         planting_date: plantationDate ? new Date(plantationDate) : undefined,
         collection_date: collectionDate ? new Date(collectionDate) : undefined,
-        hectare: Number(hectare),
+        surface: Number(surface),
+        type_surface: unitType ? 'HECTARE' : 'SQUARE_METER'
       }
+
+      console.log(cropDataForm);
+
 
       if(this.cropDataToEdit) {
 

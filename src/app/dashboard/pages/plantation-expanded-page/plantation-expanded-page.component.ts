@@ -22,6 +22,7 @@ import { CreateOrderFromPlantationComponent } from '../../components/dialogForms
 import { DialogService, DynamicDialogConfig, DynamicDialogModule, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { BrowserModule } from '@angular/platform-browser';
 import { OrderService } from '../../services/Orders/order.service';
+import { SurfaceSymbolPipe } from '../../pipes/surfaceSymbol.pipe';
 
 
 @Component({
@@ -40,6 +41,7 @@ import { OrderService } from '../../services/Orders/order.service';
     AutoCompleteModule,
     CreateOrderFromPlantationComponent,
     DynamicDialogModule,
+    SurfaceSymbolPipe,
   ],
   providers:[
     MessageService,
@@ -212,8 +214,6 @@ export class PlantationExpandedPageComponent implements OnInit {
               ).subscribe(resp => {
                 this.createOrderStep = 0;
                 this.selectedCrops = [];
-
-                console.log(resp);
 
                 ToastUtils.showToast(this.messageService,'Factura creada con éxito','success');
                 //TODO: Settear los nuevos kilos de los productos

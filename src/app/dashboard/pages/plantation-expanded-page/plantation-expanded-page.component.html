@@ -82,8 +82,8 @@
             <td>{{cropData.kilos | number:'1.2-2'}} Kg</td>
             <td>{{ cropData.surface | number:'1.2-2'}} {{ cropData.type_surface | surfaceSymbol }}</td>
             <td>{{ cropData.kilos_surface | number:'1.2-2' }} Kg/{{ cropData.type_surface | surfaceSymbol }}</td>
-            <td>{{ cropData.plantating_date || 'Sin fecha' }}</td>
-            <td>{{ cropData.ollection_date || 'Sin fecha' }}</td>
+            <td>{{ cropData.planting_date ? (cropData.planting_date| date:'dd/MM/yyyy') : 'Sin fecha' }}</td>
+            <td>{{ cropData.collection_date ? (cropData.collection_date | date:'dd/MM/yyyy') : 'Sin fecha' }}</td>
             <td>
               <button
                 (click)="showDialog(rowIndex)"

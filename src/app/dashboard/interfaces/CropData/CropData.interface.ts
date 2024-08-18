@@ -2,8 +2,8 @@ import { ReducedCrop } from "./ReducedCrop.interface";
 
 export interface CropData {
   id: number,
-  plantating_date: Date,
-  collection_date: Date,
+  plantating_date: string,
+  collection_date: string,
   kilo_price: number,
   cost: number,
   kilos:number,

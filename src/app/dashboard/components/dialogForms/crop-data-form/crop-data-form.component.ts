@@ -54,7 +54,7 @@ export class CropDataFormComponent implements OnChanges {
     kiloPrice: ['', [Validators.required]],
     kilos: ['', [Validators.required]],
     cost: ['', [Validators.required]],
-    plantationDate: [''],
+    plantationDate: ['', Validators.required],
     collectionDate: [''],
     surface: ['', Validators.required],
     unitType: [false] //false = m², true = ha
@@ -97,13 +97,11 @@ export class CropDataFormComponent implements OnChanges {
         cost: Number(cost),
         kilo_price: Number(kiloPrice),
         kilos: Number(kilos),
-        planting_date: plantationDate ? new Date(plantationDate) : undefined,
-        collection_date: collectionDate ? new Date(collectionDate) : undefined,
+        planting_date: plantationDate ? new Date(plantationDate).toISOString() : undefined,
+        collection_date: collectionDate ? new Date(collectionDate).toISOString() : undefined,
         surface: Number(surface),
         type_surface: unitType ? 'HECTARE' : 'SQUARE_METER'
       }
-
-      console.log(cropDataForm);
 
 
       if(this.cropDataToEdit) {

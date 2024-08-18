@@ -11,6 +11,10 @@ import { maxKilosOrder } from '../../../validators/maxKilosOrder.validator';
 import { CalendarModule } from 'primeng/calendar';
 import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextModule } from 'primeng/inputtext';
+import { AutoCompleteCompleteEvent, AutoCompleteModule, AutoCompleteSelectEvent } from 'primeng/autocomplete';
+import { CustomerReduced } from '../../../interfaces/Customer/Customer.interface';
+import { CustomersService } from '../../../services/Customers/customers.service';
+import { CreateOrder, CropDataOrder } from '../../../interfaces/Orders/CreateOrder.interface';
 
 @Component({
   selector: 'app-create-order-from-plantation',
@@ -26,6 +30,7 @@ import { InputTextModule } from 'primeng/inputtext';
     CalendarModule,
     CheckboxModule,
     InputTextModule,
+    AutoCompleteModule,
   ],
   templateUrl: './create-order-from-plantation.component.html',
   styleUrl: './create-order-from-plantation.component.scss'
@@ -34,8 +39,11 @@ export class CreateOrderFromPlantationComponent implements OnInit  {
 
   fb = inject(FormBuilder);
   ref = inject(DynamicDialogRef);
+  customerService = inject(CustomersService);
 
   cropDataSelected:CropData[] = [];
+  customerSelected?: CustomerReduced;
+  suggestions:CustomerReduced[] = [];
 
   formKilos = this.fb.group({
     costumer: ['', Validators.required],
@@ -69,15 +77,35 @@ export class CreateOrderFromPlantationComponent implements OnInit  {
   completeOrder() {
 
     if(this.formKilos.valid) {
-      const result = this.formKilos.value.kilos!.map((control: any, index: number) => ({
+      const crops: CropDataOrder[] = this.formKilos.value.kilos!.map((control: any, index: number) => ({
         cropDataId: this.cropDataSelected[index].id,
         kilos: control.kilo
       }));
 
-      this.ref.close(result);
+      const order: CreateOrder = {
+        customerId: this.customerSelected!.id,
+        delivered: false,
+        orderDate: new Date(this.formKilos.get('orderDate')!.value ?? '').toISOString(),
+        deliveryDate: new Date(this.formKilos.get('deliveryDate')!.value ?? '').toISOString(),
+        paid: this.formKilos.get('paid')!.value!,
+        products: crops
+      };
+
+      this.ref.close(order);
     } else {
       this.formKilos.markAllAsTouched();
     }
   }
 
+  selectCustomer(event: AutoCompleteSelectEvent) {
+    this.customerSelected = event.value;
+  }
+
+  searchCustomer(event: AutoCompleteCompleteEvent) {
+    this.customerService.getCustomerReducedByName(event.query).pipe(
+      //TODO: Implementar catcherror
+    ).subscribe(resp => {
+      this.suggestions = resp.content;
+    });
+  }
 }

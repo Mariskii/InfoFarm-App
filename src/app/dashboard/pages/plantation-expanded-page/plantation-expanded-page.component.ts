@@ -21,6 +21,7 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
 import { CreateOrderFromPlantationComponent } from '../../components/dialogForms/create-order-from-plantation/create-order-from-plantation.component';
 import { DialogService, DynamicDialogConfig, DynamicDialogModule, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { BrowserModule } from '@angular/platform-browser';
+import { OrderService } from '../../services/Orders/order.service';
 
 
 @Component({
@@ -55,6 +56,7 @@ export class PlantationExpandedPageComponent implements OnInit {
   activatedRoute = inject(ActivatedRoute);
   messageService = inject(MessageService);
   dialogService = inject(DialogService);
+  orderService = inject(OrderService);
 
   confirmService = inject(ConfirmationService);
 
@@ -201,8 +203,16 @@ export class PlantationExpandedPageComponent implements OnInit {
 
           ref.onClose.subscribe((data: any) => {
             if (data) {
-                console.log(data);
-
+              console.log(data);
+              this.orderService.createOrder(data).pipe(
+                catchError(err => {
+                  ToastUtils.showToast(this.messageService,'No se ha podido crear la factura','error');
+                  return of()
+                })
+              ).subscribe(resp => {
+                ToastUtils.showToast(this.messageService,'Factura creada con éxito','success');
+                console.log(resp);
+              });
             }
         });
 

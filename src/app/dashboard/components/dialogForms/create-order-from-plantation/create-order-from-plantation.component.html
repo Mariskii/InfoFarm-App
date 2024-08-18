@@ -1,12 +1,16 @@
 <form [formGroup]="formKilos" class="h-fit flex flex-col mt-5 space-y-7">
 
   <p-floatLabel class="w-full">
-    <input
-      id="costumer"
-      formControlName="costumer"
-      pInputText
-      class="bg-gray-200"
-      [style]="{'width': '100%', 'padding':'10px'}"/>
+    <p-autoComplete
+          formControlName="costumer"
+          class="w-full"
+          [suggestions]="suggestions"
+          [field]="'costumerName'"
+          [delay]="1000"
+          inputStyleClass="w-full bg-gray-200 p-2"
+          [style]="{'width':'100%'}"
+          (onSelect)="selectCustomer($event)"
+          (completeMethod)="searchCustomer($event)" />
     <label for="costumer">Cliente*</label>
   </p-floatLabel>
 
@@ -41,7 +45,7 @@
   <div class="flex space-x-2">
     <p-checkbox
         formControlName="paid"
-        value="Pagado"
+        binary="true"
         inputId="OrderPlantationPaid" />
     <label for="OrderPlantationPaid">Pagado</label>
   </div>

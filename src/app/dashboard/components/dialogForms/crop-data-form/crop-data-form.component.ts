@@ -54,8 +54,8 @@ export class CropDataFormComponent implements OnChanges {
     kiloPrice: ['', [Validators.required]],
     kilos: ['', [Validators.required]],
     cost: ['', [Validators.required]],
-    plantationDate: ['', Validators.required],
-    collectionDate: [''],
+    plantationDate: [new Date(), Validators.required],
+    collectionDate: [new Date()],
     surface: ['', Validators.required],
     unitType: [false] //false = m², true = ha
   });
@@ -68,14 +68,22 @@ export class CropDataFormComponent implements OnChanges {
         kiloPrice: this.cropDataToEdit.kilo_price.toString(),
         kilos: this.cropDataToEdit.kilos.toString(),
         cost: this.cropDataToEdit.cost.toString(),
-        plantationDate: this.cropDataToEdit.collection_date?.toString(),
-        collectionDate: this.cropDataToEdit.collection_date?.toString()
+        plantationDate: this.cropDataToEdit.planting_date ? new Date(this.cropDataToEdit.planting_date) : null,
+        collectionDate: this.cropDataToEdit.planting_date ? new Date(this.cropDataToEdit.collection_date) : null,
+        surface: this.cropDataToEdit.surface.toString(),
+        unitType: this.cropDataToEdit.type_surface === 'HECTARE'
       });
 
       this.cropSelected = this.cropDataToEdit.crop;
     }
 
   }
+
+    convertDateToDisplayFormat(dateString: string): string {
+      if (!dateString) return '';
+        const [year, month, day] = dateString.split('-').map(Number);
+      return `${day < 10 ? '0' : ''}${day}/${month < 10 ? '0' : ''}${month}/${year}`;
+    }
 
   search(event: AutoCompleteCompleteEvent) {
     this.cropService.getCropsByName(event.query).subscribe(res => {
